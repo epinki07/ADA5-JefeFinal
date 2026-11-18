@@ -9,14 +9,16 @@ import 'settings_screen.dart';
 import 'shopping_assistant_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({super.key});
+  const ProductsScreen({super.key, this.api});
+
+  final ProductApi? api;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final _api = ProductApi();
+  late final ProductApi _api;
   final _searchController = TextEditingController();
   final _speech = SpeechToText();
   late Future<List<Map<String, dynamic>>> _products;
@@ -28,10 +30,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     super.initState();
+    _api = widget.api ?? ProductApi();
     _products = _api.getProducts();
   }
 
-  void _retry() => setState(() => _products = _api.getProducts());
+  void _retry() {
+    setState(() {
+      _products = _api.getProducts();
+    });
+  }
 
   Future<void> _toggleSpeech() async {
     if (_listening) {

@@ -80,6 +80,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Shopping-assistant backend tests passed with a fake local provider and endpoint 400/503 checks. A test-context H2 seed collision was resolved by using a separate in-memory database. The full backend suite passed afterward.
 - Assistant and animation Dart analysis passed; Flutter tests passed including Lottie asset parsing. Real Gemini and on-device checks remain pending.
 - Assistant widget tests passed for question submission, loading/answer display, and provider-unavailable UI. The Flutter suite now has five passing tests.
+- Catalog widget tests found and fixed a Retry `setState` callback returning a `Future`. Search, category filtering, error, and recovery checks now pass; the Flutter suite has seven passing tests.
 
 ## Risks And Blockers
 

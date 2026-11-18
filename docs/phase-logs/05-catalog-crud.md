@@ -22,3 +22,4 @@
 - `dart analyze` passed for the product API, catalog, and form. `flutter test` passed the existing two tests. `./gradlew test` passed.
 - PostgreSQL API checks passed: GET categories returned three, POST created product 11, DELETE returned 200, and GET products returned the original ten active products.
 - The mobile UI path remains unverified because the real Firebase options file is absent.
+- Added injectable `ProductApi` to `ProductsScreen` for widget-level behavior checks. Tests verified name search, category filtering, server-unavailable text, and Retry. The Retry test found a real `setState` error: its callback returned a `Future`. Changed it to a synchronous callback that stores the new future. The full Flutter suite passed (7 tests). Mobile acceptance still remains.
