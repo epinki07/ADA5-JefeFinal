@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rive/rive.dart';
 
 import 'products_screen.dart';
@@ -40,6 +42,49 @@ class _LoginScreenState extends State<LoginScreen> {
   // Login failures use one message without identifying a valid account.
   String? authError;
   bool _isLoading = false;
+  late final Future<void> _googleInit = GoogleSignIn.instance.initialize();
+
+  Future<void> _completeLogin() async {
+    if (!mounted) return;
+    _trigSuccess?.fire();
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const ProductsScreen()),
+    );
+  }
+
+  Future<void> _onGoogleLogin() async {
+    if (_isLoading) return;
+    setState(() {
+      _isLoading = true;
+      authError = null;
+    });
+    try {
+      if (kIsWeb) {
+        await FirebaseAuth.instance.signInWithPopup(GoogleAuthProvider());
+      } else {
+        await _googleInit;
+        final googleUser = await GoogleSignIn.instance.authenticate();
+        final googleAuth = googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+      }
+      await _completeLogin();
+    } catch (_) {
+      if (!mounted) return;
+      _trigFail?.fire();
+      setState(
+        () => authError =
+            'No se pudo iniciar sesión con Google. Inténtalo de nuevo.',
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   //4.4 Acción al botón
   Future<void> _onLogin() async {
@@ -70,15 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: email,
         password: pass,
       );
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-      _trigSuccess?.fire();
-      await Future.delayed(const Duration(seconds: 2));
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const ProductsScreen()),
-      );
+      await _completeLogin();
     } on FirebaseAuthException {
       if (!mounted) return;
       setState(() {
@@ -247,6 +284,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Iniciar sesión",
                           style: TextStyle(color: Colors.white),
                         ),
+                ),
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  onPressed: _isLoading ? null : _onGoogleLogin,
+                  icon: const Icon(Icons.account_circle),
+                  label: const Text('Continuar con Google'),
                 ),
                 if (authError != null) ...[
                   const SizedBox(height: 10),

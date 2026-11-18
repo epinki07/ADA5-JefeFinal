@@ -25,8 +25,8 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Search by name and/or category filter | Partial | Flutter name search and category chips are implemented; device behavior remains unverified. |
 | Product GET, POST, PUT, DELETE from Flutter | Partial | Flutter API client and create/edit/delete controls are implemented; backend POST/PUT/DELETE passed against PostgreSQL, but mobile UI verification remains. |
 | Friendly network error with Retry | Partial | The raw exception was replaced with a friendly message; stopped-server device verification remains. |
-| Settings screen with user profile and sign-out | Missing | Add Firebase user profile view. |
-| Google Sign-In on a mobile device | Missing | Add provider and platform configuration. |
+| Settings screen with user profile and sign-out | Partial | Settings shows email, photo/avatar, UID, creation date, and sign-out; device verification remains. |
+| Google Sign-In on a mobile device | Partial | Official `google_sign_in` 7.2.0 flow is wired to Firebase and the Rive success path; provider/platform setup and device sign-in remain. |
 | Mobile video, bucket evidence, four more commits across three later days | Missing | Complete after the app works on device. |
 
 ## Optional extra credit — up to 11 points

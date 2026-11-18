@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../product_api.dart';
 import 'login_screen.dart';
 import 'product_form_screen.dart';
+import 'settings_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -120,6 +121,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
       appBar: AppBar(
         title: const Text('Catálogo de productos'),
         actions: [
+          IconButton(
+            tooltip: 'Configuración',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
+            ),
+            icon: const Icon(Icons.settings),
+          ),
           IconButton(
             tooltip: 'Actualizar',
             onPressed: _retry,
