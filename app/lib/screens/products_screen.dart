@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
+import '../product_api.dart';
 import 'login_screen.dart';
+import 'product_form_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -15,39 +13,18 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  static const _configuredBaseUrl = String.fromEnvironment('API_BASE_URL');
+  final _api = ProductApi();
   late Future<List<Map<String, dynamic>>> _products;
-
-  String get _baseUrl {
-    if (_configuredBaseUrl.isNotEmpty) return _configuredBaseUrl;
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8090';
-    }
-    return 'http://localhost:8090';
-  }
+  String _query = '';
+  int? _categoryId;
 
   @override
   void initState() {
     super.initState();
-    _products = _fetchProducts();
+    _products = _api.getProducts();
   }
 
-  Future<List<Map<String, dynamic>>> _fetchProducts() async {
-    final response = await http.get(Uri.parse('$_baseUrl/products'));
-    if (response.statusCode == 404) return [];
-    if (response.statusCode != 200) {
-      throw Exception('La API respondió con el código ${response.statusCode}.');
-    }
-    final data = jsonDecode(response.body);
-    if (data is! List) {
-      throw const FormatException('La API no devolvió una lista de productos.');
-    }
-    return data.map((item) => Map<String, dynamic>.from(item as Map)).toList();
-  }
-
-  void _retry() {
-    setState(() => _products = _fetchProducts());
-  }
+  void _retry() => setState(() => _products = _api.getProducts());
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
@@ -58,12 +35,96 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
+  Map<int, String> _categories(List<Map<String, dynamic>> products) {
+    final result = <int, String>{};
+    for (final product in products) {
+      final id = product['categoryId'];
+      final category = product['category'];
+      if (id is int && category is Map) {
+        result[id] = category['category']?.toString() ?? 'Categoría $id';
+      }
+    }
+    return result;
+  }
+
+  Future<void> _openForm(
+    Map<int, String> categories, [
+    Map<String, dynamic>? product,
+  ]) async {
+    if (categories.isEmpty) {
+      try {
+        categories = await _api.getCategories();
+      } catch (_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No se pudieron cargar las categorías.'),
+            ),
+          );
+        }
+        return;
+      }
+    }
+    if (!mounted) return;
+    final saved = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProductFormScreen(
+          api: _api,
+          categories: categories,
+          product: product,
+        ),
+      ),
+    );
+    if (saved == true && mounted) _retry();
+  }
+
+  Future<void> _delete(Map<String, dynamic> product) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Eliminar producto'),
+        content: Text('¿Eliminar ${product['name']}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    try {
+      await _api.deleteProduct(product['productId'] as int);
+      if (mounted) _retry();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'No se pudo eliminar el producto. Inténtalo de nuevo.',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Productos de Spring Boot'),
+        title: const Text('Catálogo de productos'),
         actions: [
+          IconButton(
+            tooltip: 'Actualizar',
+            onPressed: _retry,
+            icon: const Icon(Icons.refresh),
+          ),
           IconButton(
             tooltip: 'Cerrar sesión',
             onPressed: _signOut,
@@ -82,9 +143,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: const Text(
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
                       'Servidor no disponible. Comprueba tu conexión y vuelve a intentar.',
                       textAlign: TextAlign.center,
                     ),
@@ -99,23 +160,204 @@ class _ProductsScreenState extends State<ProductsScreen> {
           }
 
           final products = snapshot.data ?? [];
-          if (products.isEmpty) {
-            return const Center(child: Text('No hay productos disponibles.'));
-          }
-          return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              final category = product['category'];
-              final categoryName = category is Map
-                  ? (category['category']?.toString() ?? 'Sin categoría')
-                  : 'Sin categoría';
-              return ListTile(
-                title: Text(product['name'].toString()),
-                subtitle: Text('$categoryName · Stock: ${product['stock']}'),
-                trailing: Text('\$${product['price']}'),
-              );
-            },
+          final categories = _categories(products);
+          final visible = products.where((product) {
+            final name = product['name']?.toString().toLowerCase() ?? '';
+            return name.contains(_query.toLowerCase()) &&
+                (_categoryId == null || product['categoryId'] == _categoryId);
+          }).toList();
+
+          return Stack(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        labelText: 'Buscar productos',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) => setState(() => _query = value),
+                    ),
+                  ),
+                  if (categories.isNotEmpty)
+                    SizedBox(
+                      height: 48,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          const SizedBox(width: 12),
+                          ChoiceChip(
+                            label: const Text('Todas'),
+                            selected: _categoryId == null,
+                            onSelected: (_) =>
+                                setState(() => _categoryId = null),
+                          ),
+                          ...categories.entries.map(
+                            (entry) => Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: ChoiceChip(
+                                label: Text(entry.value),
+                                selected: _categoryId == entry.key,
+                                onSelected: (_) =>
+                                    setState(() => _categoryId = entry.key),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  Expanded(
+                    child: visible.isEmpty
+                        ? const Center(
+                            child: Text('No hay productos para mostrar.'),
+                          )
+                        : LayoutBuilder(
+                            builder: (context, constraints) {
+                              final columns = constraints.maxWidth >= 680
+                                  ? 3
+                                  : constraints.maxWidth >= 420
+                                  ? 2
+                                  : 1;
+                              return GridView.builder(
+                                padding: const EdgeInsets.fromLTRB(
+                                  12,
+                                  12,
+                                  12,
+                                  84,
+                                ),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: columns,
+                                      mainAxisSpacing: 12,
+                                      crossAxisSpacing: 12,
+                                      mainAxisExtent: 300,
+                                    ),
+                                itemCount: visible.length,
+                                itemBuilder: (context, index) {
+                                  final product = visible[index];
+                                  final category = product['category'];
+                                  final categoryName = category is Map
+                                      ? category['category']?.toString() ??
+                                            'Sin categoría'
+                                      : 'Sin categoría';
+                                  final imageUrl =
+                                      product['imageUrl']?.toString() ?? '';
+                                  final price =
+                                      (product['price'] as num?)?.toDouble() ??
+                                      0;
+                                  final stock =
+                                      (product['stock'] as num?)?.toInt() ?? 0;
+                                  return Card(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 120,
+                                          width: double.infinity,
+                                          child: imageUrl.isEmpty
+                                              ? const Icon(
+                                                  Icons.image_not_supported,
+                                                  size: 48,
+                                                )
+                                              : Image.network(
+                                                  imageUrl,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (_, _, _) =>
+                                                      const Icon(
+                                                        Icons
+                                                            .image_not_supported,
+                                                        size: 48,
+                                                      ),
+                                                ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                            12,
+                                            8,
+                                            12,
+                                            0,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product['name']?.toString() ??
+                                                    'Sin nombre',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                              Text(
+                                                categoryName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Text(
+                                                '\$${price.toStringAsFixed(2)}',
+                                              ),
+                                              Text(
+                                                stock < 50
+                                                    ? 'Poco stock: $stock'
+                                                    : 'Stock: $stock',
+                                                style: TextStyle(
+                                                  color: stock < 50
+                                                      ? Colors.deepOrange
+                                                      : null,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              tooltip: 'Editar',
+                                              onPressed: () => _openForm(
+                                                categories,
+                                                product,
+                                              ),
+                                              icon: const Icon(Icons.edit),
+                                            ),
+                                            IconButton(
+                                              tooltip: 'Eliminar',
+                                              onPressed: () => _delete(product),
+                                              icon: const Icon(
+                                                Icons.delete_outline,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
+              Positioned(
+                right: 16,
+                bottom: 16,
+                child: FloatingActionButton.extended(
+                  onPressed: () => _openForm(categories),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Agregar'),
+                ),
+              ),
+            ],
           );
         },
       ),
