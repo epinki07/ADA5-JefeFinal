@@ -1,0 +1,12 @@
+# Local credentials and generated files across the monorepo.
+.env
+.env.*
+**/application-dev.properties
+**/application-local.properties
+**/firebase_options.dart
+**/google-services.json
+**/GoogleService-Info.plist
+**/build/
+**/.dart_tool/
+**/.gradle/
+**/target/
