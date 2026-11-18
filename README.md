@@ -6,12 +6,14 @@ An in-progress Flutter mobile application and Spring Boot product API for the AD
 
 - `app/`: Flutter app with Rive bear login, Firebase Authentication, and a product list.
 - `backend/`: Spring Boot product and purchase API.
-- `docs/`: source inventory, rubric trace, and decisions.
+- `docs/`: source inventory, [phase plan](docs/PHASE_PLAN.md), phase logs, rubric trace, and decisions.
 - `CHANGELOG.md`: English record of each integration change.
 
 ## Current status
 
 This is a baseline, not a completed submission. The app already calls `GET /products`, signs in with Firebase, signs out, and offers a retry button. The backend already exposes product read, create, and delete operations. See [rubric trace](docs/RUBRIC_TRACE.md) for evidence and remaining work.
+
+Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase gets a log based on [the template](docs/PHASE_LOG_TEMPLATE.md), including source movement, tests, failures, and the exit gate.
 
 ## Local setup
 

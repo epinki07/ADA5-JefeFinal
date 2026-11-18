@@ -31,6 +31,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - `backend/src/main/java/mx/edu/tecdesoftware/market_backend/persistence/web/controller/ProductController.java`
 - `backend/src/main/java/mx/edu/tecdesoftware/market_backend/persistence/entity/Producto.java`
 - `docs/RUBRIC_TRACE.md`, `docs/SOURCE_INVENTORY.md`, `CHANGELOG.md`
+- `docs/PHASE_PLAN.md`, `docs/PHASE_LOG_TEMPLATE.md`, `docs/phase-logs/00-baseline.md`
 
 ## Architecture Notes
 
@@ -61,6 +62,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Copied the Flutter and market backend baselines into a new local Git repository.
 - Wrote English source inventory, rubric trace, decisions, README, and change log.
 - Created initial local commit `17caf71` with the owner's configured author identity.
+- Created the full phase plan and a per-phase evidence log format before further feature work.
 
 ## Validation Log
 
@@ -83,3 +85,4 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Source clones are under `ADA5/sources/` and should remain unchanged.
 - The integration repository is `ADA5/ADA5-JefeFinal/` pending the owner's final name.
 - Continue with validation, then implement Milestone 1. Do not claim rubric completion from source inspection alone.
+- Follow `docs/PHASE_PLAN.md` and create the next phase log before changing code.

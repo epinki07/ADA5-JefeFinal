@@ -13,3 +13,5 @@
 - Clarified that Gradle must be run from the backend directory.
 - Recorded the owner's decision to use the existing market product model and PostgreSQL path as the submission baseline; retained the previous-theme requirement as an explicit grading risk.
 - Refactored the Flutter login to check only empty fields and display a single global authentication error while preserving the Rive success/failure triggers, loading state, and catalog navigation.
+- Added a full phased development plan covering all mandatory rubric items, all three extra-credit items, invoice integration, failure handling, verification gates, and delivery evidence.
+- Added a reusable phase log template and a Phase 00 log documenting source movement and actual baseline checks.
