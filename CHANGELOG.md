@@ -10,3 +10,4 @@
 - Adjusted the backend ignore rules so its safe default `application.properties` and Gradle wrapper configuration are included while local credentials remain ignored.
 - Verified the copied baseline: Flutter unit tests and Spring Boot tests pass. Flutter static analysis stops at the intentionally untracked Firebase configuration file; no placeholder credentials were invented.
 - Removed three inherited whitespace issues found during the first staged diff review.
+- Clarified that Gradle must be run from the backend directory.

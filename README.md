@@ -16,7 +16,7 @@ This is a baseline, not a completed submission. The app already calls `GET /prod
 ## Local setup
 
 1. Configure Firebase locally using `app/lib/firebase_options.example.dart` as a template. Keep the real `firebase_options.dart` out of Git.
-2. Run `backend/./gradlew bootRun`; the checked-in default configuration uses H2 on port 8090 for local development.
+2. From `backend/`, run `./gradlew bootRun`; the checked-in default configuration uses H2 on port 8090 for local development.
 3. Run `flutter pub get` and `flutter run` inside `app/` on an Android emulator or physical phone. Set `API_BASE_URL` for a physical phone.
 
 PostgreSQL configuration, a billable-product theme, and mobile acceptance tests still need to be completed. Do not use this baseline as evidence that the assignment is finished.
