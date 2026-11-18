@@ -19,6 +19,17 @@ public class ProductRequest {
     @Schema(description = "Active product", example = "true")
     private boolean active;
 
+    @Schema(description = "Public product image URL")
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getName() {
         return name;
     }

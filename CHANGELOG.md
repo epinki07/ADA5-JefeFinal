@@ -19,3 +19,4 @@
 - Restarted the backend and confirmed that the PostgreSQL catalog still returns ten products.
 - Added Flutter registration and password-reset screens, connected both from Login, and preserved the rubric's return-to-Login behavior after Firebase creates a session. Targeted Dart analysis and existing Flutter tests passed; live Firebase delivery remains unverified.
 - Updated the Flutter product list to show category and stock, treat an empty API response as an empty list, and show a friendly Retry state without raw exception details.
+- Added `imageUrl` across the product entity, domain model, mapper, request DTO, and controller, plus a product PUT path that preserves existing barcode data. Verified PUT/GET persistence and missing-ID 404 against local PostgreSQL; backend tests passed.

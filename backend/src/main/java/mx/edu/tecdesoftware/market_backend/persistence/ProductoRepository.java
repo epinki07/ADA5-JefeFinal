@@ -68,6 +68,20 @@ public class ProductoRepository implements ProductRepository {
         return productMapper.toProduct(savedProduct);
     }
 
+    @Override
+    public Optional<Product> update(int productId, Product changes) {
+        return productoCrudRepository.findByIdProductoAndEstadoTrue(productId).map(producto -> {
+            producto.setNombre(changes.getName());
+            producto.setIdCategoria(changes.getCategoryId());
+            producto.setPrecioVenta(changes.getPrice());
+            producto.setCantidadStock(changes.getStock());
+            producto.setImageUrl(changes.getImageUrl());
+            Producto saved = productoCrudRepository.save(producto);
+            saved.setCategoria(entityManager.find(Categoria.class, saved.getIdCategoria()));
+            return productMapper.toProduct(saved);
+        });
+    }
+
     //Elimina un producto
     @Override
     public void delete(int productId){

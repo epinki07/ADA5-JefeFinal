@@ -8,6 +8,15 @@ public class Product {
     private int stock;
     private boolean active;
     private Category category;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
 
     public Integer getProductId() {

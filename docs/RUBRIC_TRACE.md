@@ -19,11 +19,11 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
-| `imageUrl` in entity, domain, mapper, database, and Flutter | Missing | Add schema and contract end to end. |
+| `imageUrl` in entity, domain, mapper, database, and Flutter | Partial | Backend entity/domain/mapper/DTO and PostgreSQL round-trip passed; Flutter display and real Supabase URLs remain. |
 | Public Supabase product-image bucket | Missing | Requires project configuration and uploaded images. |
 | Redesigned catalog with image, category, price, and stock | Missing | Implement in Flutter after API contract is stable. |
 | Search by name and/or category filter | Missing | Add a working search or filter. |
-| Product GET, POST, PUT, DELETE from Flutter | Partial | Backend has GET, POST, DELETE; PUT and Flutter write flows are missing. |
+| Product GET, POST, PUT, DELETE from Flutter | Partial | Backend now has all four operations; PUT and missing-ID behavior passed against PostgreSQL. Flutter write flows remain. |
 | Friendly network error with Retry | Partial | The raw exception was replaced with a friendly message; stopped-server device verification remains. |
 | Settings screen with user profile and sign-out | Missing | Add Firebase user profile view. |
 | Google Sign-In on a mobile device | Missing | Add provider and platform configuration. |

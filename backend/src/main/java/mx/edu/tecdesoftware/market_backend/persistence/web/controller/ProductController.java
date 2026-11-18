@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -127,6 +128,14 @@ public class ProductController {
         return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable("id") int productId,
+                                          @RequestBody ProductRequest request) {
+        return productService.update(productId, toProduct(request))
+                .map(ResponseEntity::ok)
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @Operation(
             summary = "Delete product by ID",
             description = "Set a product as inactive."
@@ -154,6 +163,7 @@ public class ProductController {
         product.setPrice(request.getPrice());
         product.setStock(request.getStock());
         product.setActive(request.isActive());
+        product.setImageUrl(request.getImageUrl());
         return product;
     }
 }

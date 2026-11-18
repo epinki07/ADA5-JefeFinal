@@ -28,6 +28,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public Optional<Product> update(int productId, Product changes) {
+        return productRepository.update(productId, changes);
+    }
+
     public boolean delete(int productId) {
         // Verificar que existe antes de borrar
         if (getProductById(productId).isPresent()) {

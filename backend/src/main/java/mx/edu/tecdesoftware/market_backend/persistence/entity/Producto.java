@@ -19,6 +19,9 @@ public class Producto {
     @Column(name = "codigo_barras")
     private String codigoBarras;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "precio_venta")
     private Double precioVenta;
 
@@ -57,6 +60,14 @@ public class Producto {
 
     public void setCodigoBarras(String codigoBarras) {
         this.codigoBarras = codigoBarras;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Double getPrecioVenta() {
