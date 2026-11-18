@@ -34,7 +34,7 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Requirement | Points | Status |
 | --- | ---: | --- |
 | Catalog-aware shopping assistant | 6 | Missing |
-| Voice search or visual scanner | 3 | Missing |
+| Voice search or visual scanner | 3 | Partial: voice search is wired to catalog search and statically analyzed; mobile microphone verification remains. |
 | Additional Rive or Lottie animation | 2 | Missing |
 
 ## Acceptance rule

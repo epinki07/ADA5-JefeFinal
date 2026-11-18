@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../product_api.dart';
 import 'login_screen.dart';
@@ -15,9 +16,13 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final _api = ProductApi();
+  final _searchController = TextEditingController();
+  final _speech = SpeechToText();
   late Future<List<Map<String, dynamic>>> _products;
   String _query = '';
   int? _categoryId;
+  bool _speechReady = false;
+  bool _listening = false;
 
   @override
   void initState() {
@@ -26,6 +31,52 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   void _retry() => setState(() => _products = _api.getProducts());
+
+  Future<void> _toggleSpeech() async {
+    if (_listening) {
+      await _speech.stop();
+      if (mounted) setState(() => _listening = false);
+      return;
+    }
+    try {
+      if (!_speechReady) {
+        _speechReady = await _speech.initialize(
+          onStatus: (_) {
+            if (mounted) setState(() => _listening = _speech.isListening);
+          },
+          onError: (_) {
+            if (mounted) setState(() => _listening = false);
+          },
+        );
+      }
+      if (!_speechReady) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('El reconocimiento de voz no está disponible.'),
+            ),
+          );
+        }
+        return;
+      }
+      await _speech.listen(
+        onResult: (result) {
+          if (!mounted) return;
+          _searchController.text = result.recognizedWords;
+          setState(() => _query = result.recognizedWords);
+        },
+      );
+      if (mounted) setState(() => _listening = _speech.isListening);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se pudo iniciar la búsqueda por voz.'),
+          ),
+        );
+      }
+    }
+  }
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
@@ -183,6 +234,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(12),
                     child: TextField(
+                      controller: _searchController,
                       decoration: const InputDecoration(
                         labelText: 'Buscar productos',
                         prefixIcon: Icon(Icons.search),
@@ -190,6 +242,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ),
                       onChanged: (value) => setState(() => _query = value),
                     ),
+                  ),
+                  IconButton(
+                    tooltip: _listening
+                        ? 'Detener búsqueda por voz'
+                        : 'Buscar por voz',
+                    onPressed: _toggleSpeech,
+                    icon: Icon(_listening ? Icons.mic : Icons.mic_none),
                   ),
                   if (categories.isNotEmpty)
                     SizedBox(
@@ -371,5 +430,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _speech.cancel();
+    _searchController.dispose();
+    super.dispose();
   }
 }
