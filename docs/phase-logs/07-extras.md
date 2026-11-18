@@ -14,6 +14,7 @@
 - Verification: `./gradlew test` passed with service tests for live catalog context, blank question, and empty catalog; a local fake HTTP provider test checked request/response shape and key header; endpoint tests checked 400 and 503. A second Spring context initially collided with the first test's H2 seed; giving it a separate in-memory database fixed the failure and the full suite passed. Targeted Dart analysis and `flutter test` passed. Real Gemini response and mobile device flow remain unverified.
 - The extra animation must be distinct from the existing login bear and visible in a meaningful flow. Verify that it does not block use.
 - Added an original `assets/assistant_pulse.json` Lottie animation for the assistant loading state, using `lottie` 3.8.2. Reduced-motion settings show a static icon instead. The animation asset parsed in a Flutter test, and targeted Dart analysis and all Flutter tests passed. Visual performance on a mobile device remains pending.
+- Added widget tests that enter a catalog question, verify the loading animation and answer, and verify the friendly unavailable state for HTTP 503. The full Flutter test suite passed (5 tests).
 
 ## Exit gate
 
