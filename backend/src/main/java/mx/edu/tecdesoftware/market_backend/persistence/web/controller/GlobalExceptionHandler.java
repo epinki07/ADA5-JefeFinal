@@ -1,5 +1,6 @@
 package mx.edu.tecdesoftware.market_backend.persistence.web.controller;
 
+import mx.edu.tecdesoftware.market_backend.domain.service.AssistantUnavailableException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiError> handleTypeMismatch() {
         return buildError(HttpStatus.BAD_REQUEST, "Invalid path parameter");
+    }
+
+    @ExceptionHandler(AssistantUnavailableException.class)
+    public ResponseEntity<ApiError> handleAssistantUnavailable(AssistantUnavailableException exception) {
+        return buildError(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
     }
 
     private ResponseEntity<ApiError> buildError(HttpStatus status, String message) {

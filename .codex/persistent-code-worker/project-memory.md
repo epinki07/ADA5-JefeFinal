@@ -5,7 +5,7 @@
 - Name: ADA5-JefeFinal
 - Root: /Users/diegoramirezmagana/ADA5/ADA5-JefeFinal
 - Started: 2026-11-18 21:29 UTC
-- Last Updated: 2026-11-18 21:29 UTC
+- Last Updated: 2026-11-18 22:08 UTC
 
 ## Current Assignment
 
@@ -64,6 +64,9 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Created initial local commit `17caf71` with the owner's configured author identity.
 - Created the full phase plan and a per-phase evidence log format before further feature work.
 - Added the PostgreSQL runtime profile, an idempotent ten-product seed, registration, password recovery, category display, and a friendly product Retry state. See phase logs 01–03.
+- Added `imageUrl` and product PUT through Spring Boot and PostgreSQL, plus Flutter catalog cards, search/filter, and product create/edit/delete UI.
+- Added Firebase profile/Google Sign-In UI, catalog voice search, and a Gemini shopping-assistant path with a server-only key, bounded live-catalog context, and a dedicated Flutter screen.
+- Added an original Lottie loading animation with a reduced-motion fallback for the assistant.
 
 ## Validation Log
 
@@ -74,6 +77,8 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - After the login change, `flutter test` passed, `dart analyze lib/screens/login_screen.dart` found no issues, and `dart format --set-exit-if-changed` reported no changes.
 - A local PostgreSQL 18.4 test cluster started on port 55432. Spring Boot ran with the `postgres` profile, the seed inserted 10 products, the second seed inserted none, and `GET /products` returned 10 products before and after a backend restart. `./gradlew test` passed.
 - `dart analyze` passed for the three identity screens and product screen; `flutter test` passed. Live Firebase and device checks remain pending.
+- Shopping-assistant backend tests passed with a fake local provider and endpoint 400/503 checks. A test-context H2 seed collision was resolved by using a separate in-memory database. The full backend suite passed afterward.
+- Assistant and animation Dart analysis passed; Flutter tests passed including Lottie asset parsing. Real Gemini and on-device checks remain pending.
 
 ## Risks And Blockers
 
@@ -81,11 +86,12 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Android/iOS Firebase setup and a live PostgreSQL database require local credentials/configuration.
 - WebTrack's published repository does not contain its source implementation.
 - Full Flutter static analysis and device execution require the owner's real Firebase configuration. Do not add fake values or commit the local file.
+- The Gemini assistant requires a server-side owner API key for a real provider test. The backend assistant and product mutation endpoints require Firebase authorization before public deployment.
 - The owner chose the market model despite not recalling the previous semester's theme. Rubric compliance for that theme remains unverified, but implementation can proceed.
 
 ## Restart Notes
 
 - Source clones are under `ADA5/sources/` and should remain unchanged.
 - The integration repository is `ADA5/ADA5-JefeFinal/` pending the owner's final name.
-- Continue with validation, then implement Milestone 1. Do not claim rubric completion from source inspection alone.
+- Continue phase 7 mobile validation after Firebase configuration, then phase 8 invoice integration. Do not claim rubric completion from source inspection alone.
 - Follow `docs/PHASE_PLAN.md` and create the next phase log before changing code.

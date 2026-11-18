@@ -23,6 +23,8 @@ Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase g
 
 For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSWORD` as local environment variables. From `backend/`, run `./gradlew bootRun --args=--spring.profiles.active=postgres`. After JPA creates the schema, apply `backend/sql/seed-postgres.sql` with `psql`; it adds ten market products without duplicating them on a second run. Keep database credentials outside Git.
 
+The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
+
 The PostgreSQL path has been verified against a local test database. Firebase device setup, a billable-product theme, and mobile acceptance tests still need to be completed. Do not use this baseline as evidence that the assignment is finished.
 
 ## Ownership

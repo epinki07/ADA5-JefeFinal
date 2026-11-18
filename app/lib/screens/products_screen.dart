@@ -6,6 +6,7 @@ import '../product_api.dart';
 import 'login_screen.dart';
 import 'product_form_screen.dart';
 import 'settings_screen.dart';
+import 'shopping_assistant_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -138,6 +139,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
         title: const Text('Eliminar producto'),
         content: Text('¿Eliminar ${product['name']}?'),
         actions: [
+          IconButton(
+            tooltip: 'Asistente de compras',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ShoppingAssistantScreen(api: _api),
+              ),
+            ),
+            icon: const Icon(Icons.auto_awesome),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: const Text('Cancelar'),

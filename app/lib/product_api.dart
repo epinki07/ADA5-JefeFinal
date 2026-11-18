@@ -56,6 +56,20 @@ class ProductApi {
     _check(response, 200);
   }
 
+  Future<String> askAssistant(String question) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/assistant'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'question': question}),
+    );
+    _check(response, 200);
+    final data = jsonDecode(response.body);
+    if (data is! Map || data['answer'] is! String) {
+      throw const FormatException('Invalid assistant response.');
+    }
+    return data['answer'] as String;
+  }
+
   void _check(http.Response response, int expectedStatus) {
     if (response.statusCode != expectedStatus) {
       throw ProductApiException(response.statusCode);

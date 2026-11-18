@@ -8,6 +8,7 @@
 4. Record integration changes in English and use the owner's local Git identity; do not add collaborators.
 5. Defer invoice integration until the required product flow is complete.
 6. The owner selected the existing market backend as the database and product-model baseline. Its PostgreSQL path will be used for the submission; H2 remains a local test configuration until PostgreSQL is wired and verified.
+7. The owner delegated the shopping-assistant provider choice. Use the Gemini Interactions API with `gemini-3.5-flash-lite` as the configurable default. It supports this small catalog question-answering flow with a free-tier option; actual quota and terms depend on the owner's project. Keep `GEMINI_API_KEY` only in the Spring Boot environment, send the current active catalog as bounded context, and set `store=false`. The provider is optional at runtime so missing configuration does not break mandatory catalog flows.
 
 ## Questions requiring the owner's answer
 
@@ -19,5 +20,5 @@
 
 - Choose a PostgreSQL local setup and migration strategy before replacing the H2 development default.
 - Define backend authorization for product mutations before exposing the API outside the local classroom environment.
-- Keep third-party assistant API keys server-side if the six-point extra is implemented.
+- Before any public deployment, protect the assistant endpoint and product mutations with verified Firebase identity and appropriate authorization. The current backend is intended for local integration only.
 - The rubric still requests the previous semester's theme. The owner does not recall it and explicitly chose the compatible market data model. Record this as a grading risk without blocking implementation.
