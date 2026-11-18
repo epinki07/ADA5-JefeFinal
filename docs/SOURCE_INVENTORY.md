@@ -20,4 +20,4 @@
 
 ## Integration boundary
 
-The billing API models invoices rather than the rubric's required products. Invoice code should enter this repository only after the product flow is complete and the previous semester's theme is confirmed. Do not import both Spring Boot applications as two overlapping backends without a defined contract.
+The billing API models invoices rather than the rubric's required products. Invoice code should enter this repository only after the product flow is complete. Do not import both Spring Boot applications as two overlapping backends without a defined contract.

@@ -45,7 +45,6 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 
 ## Open Questions
 
-- Exact previous-semester database theme.
 - Final repository name; `ADA5-JefeFinal` is the reversible working name.
 - Google account eligibility and the role of invoices in the final demonstration.
 
@@ -53,7 +52,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 
 - Verify that the copied baseline is complete and contains no local secrets.
 - Commit the initial documented baseline under the owner's identity.
-- Resolve theme and name before product seed and publication.
+- Use the market model selected by the owner; resolve the final name before GitHub publication.
 - Implement rubric items in dependency order, then optional extras.
 
 ## Completed Work
@@ -69,6 +68,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - `backend/./gradlew test` passed.
 - `flutter analyze` reported two issues at `app/lib/main.dart` because `lib/firebase_options.dart` is intentionally untracked and is not yet configured locally.
 - Source clones remained clean after consolidation.
+- After the login change, `flutter test` passed, `dart analyze lib/screens/login_screen.dart` found no issues, and `dart format --set-exit-if-changed` reported no changes.
 
 ## Risks And Blockers
 
@@ -76,6 +76,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Android/iOS Firebase setup and a live PostgreSQL database require local credentials/configuration.
 - WebTrack's published repository does not contain its source implementation.
 - Full Flutter static analysis and device execution require the owner's real Firebase configuration. Do not add fake values or commit the local file.
+- The owner chose the market model despite not recalling the previous semester's theme. Rubric compliance for that theme remains unverified, but implementation can proceed.
 
 ## Restart Notes
 

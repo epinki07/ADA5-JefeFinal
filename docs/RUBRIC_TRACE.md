@@ -6,11 +6,11 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
-| Generic login error; retain bear animation, loading, and navigation | Partial | Animations and navigation exist; remove field-specific errors. |
+| Generic login error; retain bear animation, loading, and navigation | Partial | Field-specific errors were removed; code still needs a live Firebase and device acceptance check. |
 | Registration with institutional email and password rules | Missing | Add a Flutter registration screen and Firebase account creation. |
 | Password recovery | Missing | Add reset-email flow. |
 | Sign-out | Present | `ProductsScreen` calls Firebase `signOut()`. Verify on device. |
-| Previous semester theme and at least 10 products | Decision needed | Current seed has four grocery products; confirm required theme. |
+| Previous semester theme and at least 10 products | Partial | The owner chose the existing market model; current seed has four grocery products and must be expanded to ten. Previous-theme compliance cannot be verified. |
 | Show product category | Missing | Add category to the Flutter list. |
 | Keep credentials out of GitHub | Partial | Ignore rules exist; audit tracked files and setup instructions before publication. |
 | Mobile evidence and three commits on three different days | Missing | Produce evidence and record work over the required days. |

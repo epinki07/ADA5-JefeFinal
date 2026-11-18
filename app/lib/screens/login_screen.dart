@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rive/rive.dart';
 
-import '../login_validation.dart';
 import 'products_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,9 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
 
-  //4.2 Errores para mostrar en la UI
-  String? emailError;
-  String? passwordError;
+  // Login failures use one message without identifying a valid account.
   String? authError;
   bool _isLoading = false;
 
@@ -49,16 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = emailCtrl.text.trim();
     final pass = passwordCtrl.text;
 
-    // Recalcular errores
-    final emailTypedError = isValidEmail(email) ? null : "Email inválido";
-    final passTypedError = isValidPassword(pass) ? null : "Contraseña inválida";
-
-    // 4.5 Avisar que hubo un cambio
-    setState(() {
-      emailError = emailTypedError;
-      passwordError = passTypedError;
-      authError = null;
-    });
+    setState(() => authError = null);
 
     // 4.6 Cerrar el teclado y bajar manos
 
@@ -68,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _isHandsUp?.change(false);
     _numLook?.value = 50; // mirada neutral
 
-    if (emailTypedError != null || passTypedError != null) {
+    if (email.isEmpty || pass.isEmpty) {
+      setState(() => authError = 'Ingresa tu correo y contraseña.');
       _trigFail?.fire();
       return;
     }
@@ -88,13 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (_) => const ProductsScreen()),
       );
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        authError = error.code == 'network-request-failed'
-            ? 'No se pudo conectar con Firebase. Revisa tu conexión.'
-            : 'Credenciales no válidas. Revisa tu correo y contraseña.';
+        authError = 'Credenciales inválidas. Verifica tu correo y contraseña.';
       });
       _trigFail?.fire();
     } catch (_) {
@@ -191,7 +178,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "Email@ejemplo.com",
-                    errorText: emailError,
                     prefixIcon: const Icon(Icons.email),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -213,8 +199,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   obscureText: _isObscure,
                   decoration: InputDecoration(
-                    //4.9 Mostrar el texto de error
-                    errorText: passwordError,
                     hintText: "Password",
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(

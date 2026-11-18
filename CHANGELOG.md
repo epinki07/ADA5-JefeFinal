@@ -11,3 +11,5 @@
 - Verified the copied baseline: Flutter unit tests and Spring Boot tests pass. Flutter static analysis stops at the intentionally untracked Firebase configuration file; no placeholder credentials were invented.
 - Removed three inherited whitespace issues found during the first staged diff review.
 - Clarified that Gradle must be run from the backend directory.
+- Recorded the owner's decision to use the existing market product model and PostgreSQL path as the submission baseline; retained the previous-theme requirement as an explicit grading risk.
+- Refactored the Flutter login to check only empty fields and display a single global authentication error while preserving the Rive success/failure triggers, loading state, and catalog navigation.
