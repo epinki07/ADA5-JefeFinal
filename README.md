@@ -21,7 +21,9 @@ Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase g
 2. From `backend/`, run `./gradlew bootRun`; the checked-in default configuration uses H2 on port 8090 for local development.
 3. Run `flutter pub get` and `flutter run` inside `app/` on an Android emulator or physical phone. Set `API_BASE_URL` for a physical phone.
 
-PostgreSQL configuration, a billable-product theme, and mobile acceptance tests still need to be completed. Do not use this baseline as evidence that the assignment is finished.
+For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSWORD` as local environment variables. From `backend/`, run `./gradlew bootRun --args=--spring.profiles.active=postgres`. After JPA creates the schema, apply `backend/sql/seed-postgres.sql` with `psql`; it adds ten market products without duplicating them on a second run. Keep database credentials outside Git.
+
+The PostgreSQL path has been verified against a local test database. Firebase device setup, a billable-product theme, and mobile acceptance tests still need to be completed. Do not use this baseline as evidence that the assignment is finished.
 
 ## Ownership
 

@@ -7,11 +7,11 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
 | Generic login error; retain bear animation, loading, and navigation | Partial | Field-specific errors were removed; code still needs a live Firebase and device acceptance check. |
-| Registration with institutional email and password rules | Missing | Add a Flutter registration screen and Firebase account creation. |
-| Password recovery | Missing | Add reset-email flow. |
+| Registration with institutional email and password rules | Partial | `SignUpScreen` is implemented and statically analyzed; live Firebase/device verification remains. |
+| Password recovery | Partial | Reset screen calls Firebase and is statically analyzed; real email receipt remains unverified. |
 | Sign-out | Present | `ProductsScreen` calls Firebase `signOut()`. Verify on device. |
-| Previous semester theme and at least 10 products | Partial | The owner chose the existing market model; current seed has four grocery products and must be expanded to ten. Previous-theme compliance cannot be verified. |
-| Show product category | Missing | Add category to the Flutter list. |
+| Previous semester theme and at least 10 products | Partial | The owner chose the market model; PostgreSQL now contains ten products in a local integration test. Previous-theme compliance and device evidence remain unverified. |
+| Show product category | Partial | The Flutter list now reads the nested category; device verification remains. |
 | Keep credentials out of GitHub | Partial | Ignore rules exist; audit tracked files and setup instructions before publication. |
 | Mobile evidence and three commits on three different days | Missing | Produce evidence and record work over the required days. |
 
@@ -24,7 +24,7 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Redesigned catalog with image, category, price, and stock | Missing | Implement in Flutter after API contract is stable. |
 | Search by name and/or category filter | Missing | Add a working search or filter. |
 | Product GET, POST, PUT, DELETE from Flutter | Partial | Backend has GET, POST, DELETE; PUT and Flutter write flows are missing. |
-| Friendly network error with Retry | Partial | Retry exists; replace raw exception text. |
+| Friendly network error with Retry | Partial | The raw exception was replaced with a friendly message; stopped-server device verification remains. |
 | Settings screen with user profile and sign-out | Missing | Add Firebase user profile view. |
 | Google Sign-In on a mobile device | Missing | Add provider and platform configuration. |
 | Mobile video, bucket evidence, four more commits across three later days | Missing | Complete after the app works on device. |

@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rive/rive.dart';
 
 import 'products_screen.dart';
+import 'password_reset_screen.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -217,12 +219,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                SizedBox(
-                  width: size.width,
-                  child: const Text(
-                    "¿Olvidaste tu contraseña?",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(decoration: TextDecoration.underline),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const PasswordResetScreen(),
+                            ),
+                          ),
+                    child: const Text('¿Olvidaste tu contraseña?'),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -257,7 +265,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text("¿No tienes cuenta?"),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: _isLoading
+                            ? null
+                            : () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const SignUpScreen(),
+                                ),
+                              ),
                         child: const Text(
                           "Regístrate",
                           style: TextStyle(

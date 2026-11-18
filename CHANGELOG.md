@@ -15,3 +15,7 @@
 - Refactored the Flutter login to check only empty fields and display a single global authentication error while preserving the Rive success/failure triggers, loading state, and catalog navigation.
 - Added a full phased development plan covering all mandatory rubric items, all three extra-credit items, invoice integration, failure handling, verification gates, and delivery evidence.
 - Added a reusable phase log template and a Phase 00 log documenting source movement and actual baseline checks.
+- Added an environment-based PostgreSQL profile and an idempotent ten-product seed; expanded the H2 sample catalog to ten products. Verified Spring Boot startup and `GET /products` against local PostgreSQL, repeated the seed without duplicates, and passed backend regression tests.
+- Restarted the backend and confirmed that the PostgreSQL catalog still returns ten products.
+- Added Flutter registration and password-reset screens, connected both from Login, and preserved the rubric's return-to-Login behavior after Firebase creates a session. Targeted Dart analysis and existing Flutter tests passed; live Firebase delivery remains unverified.
+- Updated the Flutter product list to show category and stock, treat an empty API response as an empty list, and show a friendly Retry state without raw exception details.

@@ -9,7 +9,7 @@
 
 ## Confirmed gaps in the compatible baseline
 
-- The backend seed has four grocery products; the rubric requires at least ten products in the previous semester's theme.
+- The original backend seed had four grocery products. The integration repository now has ten market products; previous-semester theme compliance remains unverified.
 - The backend has product GET, POST, and DELETE endpoints; no product PUT endpoint appears in `ProductController`.
 - `Producto`, `Product`, `ProductMapper`, and `ProductRequest` lack `imageUrl`.
 - The checked-in backend configuration starts with H2; the rubric requires PostgreSQL for the project data.

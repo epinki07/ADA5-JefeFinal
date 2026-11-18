@@ -34,6 +34,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   Future<List<Map<String, dynamic>>> _fetchProducts() async {
     final response = await http.get(Uri.parse('$_baseUrl/products'));
+    if (response.statusCode == 404) return [];
     if (response.statusCode != 200) {
       throw Exception('La API respondió con el código ${response.statusCode}.');
     }
@@ -83,8 +84,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Text(
-                      'No se pudieron cargar los productos.\n${snapshot.error}',
+                    child: const Text(
+                      'Servidor no disponible. Comprueba tu conexión y vuelve a intentar.',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -105,9 +106,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
+              final category = product['category'];
+              final categoryName = category is Map
+                  ? (category['category']?.toString() ?? 'Sin categoría')
+                  : 'Sin categoría';
               return ListTile(
                 title: Text(product['name'].toString()),
-                subtitle: Text('Stock: ${product['stock']}'),
+                subtitle: Text('$categoryName · Stock: ${product['stock']}'),
                 trailing: Text('\$${product['price']}'),
               );
             },

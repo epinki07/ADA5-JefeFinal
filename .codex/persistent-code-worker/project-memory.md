@@ -63,6 +63,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - Wrote English source inventory, rubric trace, decisions, README, and change log.
 - Created initial local commit `17caf71` with the owner's configured author identity.
 - Created the full phase plan and a per-phase evidence log format before further feature work.
+- Added the PostgreSQL runtime profile, an idempotent ten-product seed, registration, password recovery, category display, and a friendly product Retry state. See phase logs 01–03.
 
 ## Validation Log
 
@@ -71,6 +72,8 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - `flutter analyze` reported two issues at `app/lib/main.dart` because `lib/firebase_options.dart` is intentionally untracked and is not yet configured locally.
 - Source clones remained clean after consolidation.
 - After the login change, `flutter test` passed, `dart analyze lib/screens/login_screen.dart` found no issues, and `dart format --set-exit-if-changed` reported no changes.
+- A local PostgreSQL 18.4 test cluster started on port 55432. Spring Boot ran with the `postgres` profile, the seed inserted 10 products, the second seed inserted none, and `GET /products` returned 10 products before and after a backend restart. `./gradlew test` passed.
+- `dart analyze` passed for the three identity screens and product screen; `flutter test` passed. Live Firebase and device checks remain pending.
 
 ## Risks And Blockers
 
