@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 
-// Copy this file to firebase_options.dart and fill in the Web app values
-// from Firebase Console > Project settings > Your apps.
+// Copy this file to firebase_options.dart and use the values for the
+// registered Firebase app on the platform you intend to run.
 const FirebaseOptions firebaseOptions = FirebaseOptions(
   apiKey: 'YOUR_API_KEY',
   appId: 'YOUR_APP_ID',

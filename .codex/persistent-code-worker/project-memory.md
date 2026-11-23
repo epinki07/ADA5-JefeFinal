@@ -5,7 +5,7 @@
 - Name: ADA5-JefeFinal
 - Root: /Users/diegoramirezmagana/ADA5/ADA5-JefeFinal
 - Started: 2026-11-18 21:29 UTC
-- Last Updated: 2026-11-18 22:08 UTC
+- Last Updated: 2026-11-23 (local date)
 
 ## Current Assignment
 
@@ -97,3 +97,6 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 - The integration repository is `ADA5/ADA5-JefeFinal/` pending the owner's final name.
 - Continue phase 7 mobile validation after Firebase configuration, then phase 8 invoice integration. Do not claim rubric completion from source inspection alone.
 - Follow `docs/PHASE_PLAN.md` and create the next phase log before changing code.
+- On November 23, fixed the assistant action being inside the delete dialog; it is now in the catalog toolbar. Eight Flutter tests, targeted Dart analysis, and backend tests pass. See `docs/phase-logs/09-delivery-readiness.md`.
+- `docs/DELIVERY_CHECKLIST.md` now tracks Hito 1/Hito 2 evidence and an unsent Teams draft. No Git remote exists, all twelve commits before this phase are dated November 18, and device acceptance remains open without real Firebase configuration. The Android emulator `Flutter_Pixel_API_36` is available but was not used for acceptance. Verify the November 23 commit after it is created.
+- Owner clarification is pending on final repository name and whether invoices mean internal receipts or stamped CFDI. Continue independent work, then update the checklist and publication links once answers arrive.

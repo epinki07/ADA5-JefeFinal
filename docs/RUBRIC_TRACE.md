@@ -33,10 +33,12 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 | Requirement | Points | Status |
 | --- | ---: | --- |
-| Catalog-aware shopping assistant | 6 | Partial: Flutter screen, Spring Boot endpoint, current-catalog context, and failure handling are implemented; tests use a local fake provider. A real key, provider call, and device demonstration remain. |
+| Catalog-aware shopping assistant | 6 | Partial: Flutter screen reachable from the catalog toolbar, Spring Boot endpoint, current-catalog context, and failure handling are implemented; tests use a local fake provider. A real key, provider call, and device demonstration remain. |
 | Voice search or visual scanner | 3 | Partial: voice search is wired to catalog search and statically analyzed; mobile microphone verification remains. |
 | Additional Rive or Lottie animation | 2 | Partial: an original Lottie pulse is shown while the assistant is answering, with a reduced-motion static fallback; asset parsing and Dart analysis passed, but mobile visual verification remains. |
 
 ## Acceptance rule
 
 Mark a requirement complete only after code review and a successful on-device demonstration. Screenshots, Git history, and Teams submissions are separate delivery artifacts.
+
+Use [the delivery checklist](DELIVERY_CHECKLIST.md) to track evidence and submission links. The twelve commits preceding the November 23 delivery-readiness phase are dated November 18, and the local repository has no remote.

@@ -1,39 +1,20 @@
-# ADA 4: Firebase Authentication y productos
+# ADA 5 Flutter app
 
-La app valida el formato del correo y la contraseña, inicia sesión en Firebase
-Authentication y, al entrar, consulta `GET /products` del backend Spring Boot.
+This app provides Firebase email/password registration, login, recovery, Google sign-in, a product catalog with search and CRUD, profile settings, voice search, and an optional shopping assistant. The Spring Boot API lives in `../backend/`.
 
-## Configuración de Firebase
+## Local setup
 
-1. En Firebase Console, crea un proyecto y registra una app Web (`</>`).
-2. En **Authentication > Sign-in method**, activa **Correo electrónico/Contraseña**.
-3. En **Authentication > Users**, agrega un usuario de prueba con una contraseña
-   de 8 o más caracteres, mayúscula, minúscula, número y símbolo.
-4. Copia `lib/firebase_options.example.dart` a `lib/firebase_options.dart`
-   y reemplaza los cuatro valores con los de **Configuración del proyecto > Tus apps**.
-   El archivo real está ignorado por Git.
+1. Set up the owner's Firebase project for the intended Android or iOS app. Enable Email/Password and Google under Firebase Authentication. Register the app's actual package/bundle ID and complete the platform-specific Google sign-in configuration. The current Android application ID is `com.example.login_rive_animation`; change it deliberately in both Firebase and the project if a final ID is chosen.
+2. Provide `lib/firebase_options.dart` locally. `lib/firebase_options.example.dart` shows the shape expected by `main.dart`, but its values are placeholders. Use options for the registered app and keep the real file ignored by Git. Google sign-in also needs the platform configuration required by Firebase/Google Sign-In; the Dart options file alone does not complete that setup.
+3. Start `../backend/` with `./gradlew bootRun` for local H2, or configure `DB_URL`, `DB_USER`, and `DB_PASSWORD` and start it with `./gradlew bootRun --args=--spring.profiles.active=postgres` for the ADA 5 PostgreSQL path. Apply `../backend/sql/seed-postgres.sql` after the PostgreSQL schema exists.
+4. Run `flutter pub get` and `flutter run` from this directory. The Android emulator uses `http://10.0.2.2:8090`. For a physical phone on the same network, pass `--dart-define=API_BASE_URL=http://HOST_IP:8090`.
 
-## Ejecutar
+The optional assistant calls `POST /assistant` through the backend. Set `GEMINI_API_KEY` only in the backend environment to enable a real provider response. The catalog remains usable without this key.
 
-Inicia el backend `market-backend-2026-3-b` con `./gradlew bootRun`. Debe
-responder con JSON en `http://localhost:8090/products`.
+## Checks
 
-```sh
-flutter pub get
-flutter run -d chrome
-```
+Run `flutter test` for local widget tests. Run `flutter analyze` after providing the local Firebase options file. A successful widget suite does not verify Firebase providers, microphone permissions, image hosting, or mobile network behavior; those need device checks recorded in `../docs/DELIVERY_CHECKLIST.md`.
 
-Para el emulador Android, la app usa automáticamente `http://10.0.2.2:8090`.
-En un teléfono físico, indica la IP de la computadora:
+## Delivery
 
-```sh
-flutter run --dart-define=API_BASE_URL=http://TU_IP_LOCAL:8090
-```
-
-## Evidencias solicitadas
-
-- Login exitoso con el usuario creado en Firebase Authentication y productos visibles.
-- Credenciales incorrectas con formato válido: mensaje general, sin error en un campo.
-- Correo o contraseña con formato inválido: error en el campo correspondiente.
-- IntelliJ ejecutando el backend y navegador mostrando el JSON sin formato en
-  `http://localhost:8090/products`.
+Use `../docs/RUBRIC_TRACE.md` for requirement status and `../docs/DELIVERY_CHECKLIST.md` for the evidence and submission package. Do not include Firebase options, service keys, database passwords, or test-account passwords in the repository or video.

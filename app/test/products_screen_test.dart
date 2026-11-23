@@ -71,4 +71,32 @@ void main() {
     expect(api.calls, 2);
     expect(find.text('Manzana'), findsOneWidget);
   });
+
+  testWidgets(
+    'assistant is reachable from the catalog, not the delete dialog',
+    (tester) async {
+      final api = FakeCatalogApi()..results.add(() async => sampleProducts);
+      await tester.pumpWidget(MaterialApp(home: ProductsScreen(api: api)));
+      await tester.pumpAndSettle();
+
+      expect(find.byTooltip('Asistente de compras'), findsOneWidget);
+      await tester.tap(find.byTooltip('Eliminar').first);
+      await tester.pumpAndSettle();
+      expect(find.text('Eliminar producto'), findsOneWidget);
+      expect(find.byTooltip('Asistente de compras'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byTooltip('Asistente de compras'),
+        ),
+        findsNothing,
+      );
+
+      await tester.tap(find.text('Cancelar'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Asistente de compras'));
+      await tester.pumpAndSettle();
+      expect(find.text('Asistente de compras'), findsOneWidget);
+    },
+  );
 }

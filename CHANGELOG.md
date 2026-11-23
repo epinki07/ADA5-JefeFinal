@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-11-23 — Phase 9: delivery readiness
+
+- Moved the shopping assistant action to the catalog toolbar. It had accidentally been placed inside the delete confirmation; added a widget test for access and dialog contents.
+- Replaced the inherited ADA 4 app README with ADA 5 setup, checks, and delivery guidance; clarified that Firebase options must match the registered platform app.
+- Added a Hito 1/Hito 2 delivery checklist with real evidence status, Git-date and remote audits, and an unsent Teams message draft.
+- Passed all eight Flutter tests, targeted Dart analysis, backend tests, and `git diff --check`. Device acceptance remains open because real Firebase configuration and mobile execution are not yet available.
+
 ## 2026-11-18 — Phase 0: source consolidation
 
 - Created the `ADA5` workspace and cloned the original Flutter, market backend, billing API, and WebTrack showcase repositories into `ADA5/sources/`.
