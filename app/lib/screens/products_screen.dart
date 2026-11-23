@@ -43,6 +43,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   Future<void> _openSales() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     await Navigator.push<void>(
       context,
       MaterialPageRoute(
@@ -205,10 +206,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ),
           IconButton(
             tooltip: 'Configuración',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
-            ),
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
             icon: const Icon(Icons.settings),
           ),
           IconButton(
@@ -350,8 +354,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                       ? category['category']?.toString() ??
                                             'Sin categoría'
                                       : 'Sin categoría';
-                                  final imageUrl =
-                                      product['imageUrl']?.toString() ?? '';
+                                  final imageUrl = _api.imageUrl(
+                                    product['imageUrl']?.toString() ?? '',
+                                  );
                                   final price =
                                       (product['price'] as num?)?.toDouble() ??
                                       0;
@@ -371,15 +376,21 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   Icons.image_not_supported,
                                                   size: 48,
                                                 )
-                                              : Image.network(
-                                                  imageUrl,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (_, _, _) =>
-                                                      const Icon(
-                                                        Icons
-                                                            .image_not_supported,
-                                                        size: 48,
-                                                      ),
+                                              : ColoredBox(
+                                                  color: const Color(
+                                                    0xFFE9DCCF,
+                                                  ),
+                                                  child: Image.network(
+                                                    imageUrl,
+                                                    fit: BoxFit.contain,
+                                                    excludeFromSemantics: true,
+                                                    errorBuilder: (_, _, _) =>
+                                                        const Icon(
+                                                          Icons
+                                                              .image_not_supported,
+                                                          size: 48,
+                                                        ),
+                                                  ),
                                                 ),
                                         ),
                                         Padding(

@@ -1,5 +1,11 @@
 # Change log
 
+## 2026-11-23 — Catalog photos and Firebase Android setup
+
+- Added ten product photographs, local serving through Spring Boot, and a repeatable PostgreSQL image assignment script.
+- Added Android on-device checks for photo cards, name/category filtering, and the Firebase profile.
+- Replaced the untracked Dart import with compile-time Firebase options generated from the registered Android app file. Full Flutter analysis now runs on a clean checkout.
+
 ## 2026-11-23 — Sales and internal receipts
 
 - Added a mobile sales form with catalog quantities, payment method, internal receipt, and sales history.

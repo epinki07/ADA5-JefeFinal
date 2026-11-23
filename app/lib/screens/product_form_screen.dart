@@ -148,8 +148,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     labelText: 'URL pública de la imagen',
                   ),
                   validator: (value) {
-                    if ((value ?? '').trim().isEmpty) return null;
-                    final uri = Uri.tryParse(value!.trim());
+                    final link = (value ?? '').trim();
+                    if (link.isEmpty || ProductApi.isBundledImage(link)) {
+                      return null;
+                    }
+                    final uri = Uri.tryParse(link);
                     return uri != null &&
                             uri.scheme == 'https' &&
                             uri.host.isNotEmpty

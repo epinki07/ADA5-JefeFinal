@@ -2,6 +2,8 @@
 
 A Flutter point-of-sale app and Spring Boot API for the ADA5 integrative assignment. The app uses the product catalog to register sales in PostgreSQL, deduct stock, and display each internal receipt and the sales history.
 
+The [Android demo release](https://github.com/epinki07/ADA5-JefeFinal/releases/tag/demo-android-v0.2.0) includes a video, the emulator APK, the Spring Boot JAR, and the evidence package.
+
 ## Layout
 
 - `app/`: Flutter app with Rive login, Firebase Authentication, catalog, sales, and receipts.
@@ -26,11 +28,13 @@ Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase g
 
 ## Local setup
 
-1. Configure Firebase locally using `app/lib/firebase_options.example.dart` as a template. Keep the real `firebase_options.dart` out of Git.
+1. For real Firebase authentication, follow the [Android configuration guide](app/README.md#android-with-a-firebase-project). For the self-contained demo, use Firebase Auth Emulator instead.
 2. From `backend/`, run `./gradlew bootRun`; the checked-in default configuration uses H2 on port 8090 for local development.
-3. Run `flutter pub get` and `flutter run` inside `app/` on an Android emulator or physical phone. Set `API_BASE_URL` for a physical phone.
+3. Run `flutter pub get` and the matching Flutter command in the Android configuration or emulator guide. Set `API_BASE_URL` for a physical phone.
 
 For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSWORD` as local environment variables. From `backend/`, run `./gradlew bootRun --args=--spring.profiles.active=postgres`. After JPA creates the schema, apply `backend/sql/seed-postgres.sql` with `psql`; it adds ten market products without duplicating them on a second run. Keep database credentials outside Git.
+
+Apply `backend/sql/catalog-images-postgres.sql` after the seed to display the included product images. It fills missing image URLs without overwriting URLs already assigned by the owner. To use a public Supabase bucket instead, follow the [product image setup](docs/PRODUCT_IMAGES.md).
 
 The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
 

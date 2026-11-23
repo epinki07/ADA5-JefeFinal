@@ -12,22 +12,22 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Sign-out | Present | Android returned to login and Back did not reopen the catalog after signing out of the local Firebase session. |
 | Previous semester theme and at least 10 products | Partial | PostgreSQL served the owner's selected market catalog with ten products across three categories, and Android displayed the catalog. Previous-theme compliance remains unverified. |
 | Show product category | Present | Android displayed category names returned by Spring Boot and PostgreSQL. |
-| Keep credentials out of GitHub | Partial | Ignore rules exist; audit tracked files and setup instructions before publication. |
+| Keep credentials out of GitHub | Present | Both the Firebase Android download and generated local build options are ignored. Public releases use the emulator configuration. |
 | Mobile evidence and three commits on three different days | Partial | The Hito 1 advance includes six Android captures. Git history covers two distinct days. |
 
 ## Milestone 2 — 30 points, due December 1, 2026
 
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
-| `imageUrl` in entity, domain, mapper, database, and Flutter | Partial | Backend entity/domain/mapper/DTO and PostgreSQL round-trip passed; Flutter display and real Supabase URLs remain. |
+| `imageUrl` in entity, domain, mapper, database, and Flutter | Present | PostgreSQL provided ten image paths, Spring Boot served the WebP files, and Android rendered photos on the catalog cards. Supabase hosting is tracked separately. |
 | Public Supabase product-image bucket | Missing | Requires project configuration and uploaded images. |
-| Redesigned catalog with image, category, price, and stock | Partial | Flutter cards and image fallback are implemented and statically analyzed; real image/device evidence remains. |
-| Search by name and/or category filter | Partial | Flutter name search and category chips are implemented; device behavior remains unverified. |
-| Product GET, POST, PUT, DELETE from Flutter | Partial | Flutter API client and create/edit/delete controls are implemented; backend POST/PUT/DELETE passed against PostgreSQL and widget tests cover create/edit/delete plus refresh. Mobile UI verification remains. |
-| Friendly network error with Retry | Partial | The raw exception was replaced with a friendly message; stopped-server device verification remains. |
-| Settings screen with user profile and sign-out | Partial | Settings shows email, photo/avatar, UID, creation date, and sign-out; device verification remains. |
+| Redesigned catalog with image, category, price, and stock | Present | Android displayed photos, names, categories, prices, and stock from the PostgreSQL catalog. |
+| Search by name and/or category filter | Present | Android verified the Bolillo search and Panaderia selection. Both removed products outside the filter. |
+| Product GET, POST, PUT, DELETE from Flutter | Present | Android created a temporary product, edited stock from 6 to 8, and deleted it. API readbacks checked PostgreSQL state after each mobile action. |
+| Friendly network error with Retry | Present | Android showed the friendly error in airplane mode and restored the catalog after reconnecting and tapping Retry. |
+| Settings screen with user profile and sign-out | Present | Android displayed the emulator account email, avatar, UID and creation date; sign-out was verified in the Hito 1 flow. |
 | Google Sign-In on a mobile device | Partial | Official `google_sign_in` 7.2.0 flow is wired to Firebase and the Rive success path; provider/platform setup and device sign-in remain. |
-| Mobile video, bucket evidence, four more commits across three later days | Missing | Complete after the app works on device. |
+| Mobile video, bucket evidence, four more commits across three later days | Partial | Android video shows photo cards, search, category filtering, profile, and the saved sale receipt. Supabase evidence and later commit dates remain open. |
 
 ## Optional extra credit — up to 11 points
 

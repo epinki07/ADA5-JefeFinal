@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class ProductApi {
   static const _configuredBaseUrl = String.fromEnvironment('API_BASE_URL');
+  static final _bundledImage = RegExp(r'^/catalog-images/[0-9]{13}\.webp$');
 
   String get baseUrl {
     if (_configuredBaseUrl.isNotEmpty) return _configuredBaseUrl;
@@ -12,6 +13,14 @@ class ProductApi {
       return 'http://10.0.2.2:8090';
     }
     return 'http://localhost:8090';
+  }
+
+  static bool isBundledImage(String value) => _bundledImage.hasMatch(value);
+
+  String imageUrl(String value) {
+    return isBundledImage(value)
+        ? Uri.parse(baseUrl).resolve(value).toString()
+        : value;
   }
 
   Future<List<Map<String, dynamic>>> getProducts() async {

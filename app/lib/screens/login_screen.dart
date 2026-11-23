@@ -10,6 +10,9 @@ import 'products_screen.dart';
 import 'password_reset_screen.dart';
 import 'signup_screen.dart';
 
+const _googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+Future<void>? _googleInitialization;
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -42,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
   // Login failures use one message without identifying a valid account.
   String? authError;
   bool _isLoading = false;
-  late final Future<void> _googleInit = GoogleSignIn.instance.initialize();
 
   Future<void> _completeLogin() async {
     if (!mounted) return;
@@ -65,7 +67,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (kIsWeb) {
         await FirebaseAuth.instance.signInWithPopup(GoogleAuthProvider());
       } else {
-        await _googleInit;
+        await (_googleInitialization ??= GoogleSignIn.instance.initialize(
+          serverClientId: _googleServerClientId.isEmpty
+              ? null
+              : _googleServerClientId,
+        ));
         final googleUser = await GoogleSignIn.instance.authenticate();
         final googleAuth = googleUser.authentication;
         final credential = GoogleAuthProvider.credential(
@@ -286,11 +292,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                 ),
                 const SizedBox(height: 10),
-                OutlinedButton.icon(
-                  onPressed: _isLoading ? null : _onGoogleLogin,
-                  icon: const Icon(Icons.account_circle),
-                  label: const Text('Continuar con Google'),
-                ),
+                if (defaultTargetPlatform != TargetPlatform.android ||
+                    _googleServerClientId.isNotEmpty ||
+                    kIsWeb)
+                  OutlinedButton.icon(
+                    onPressed: _isLoading ? null : _onGoogleLogin,
+                    icon: const Icon(Icons.account_circle),
+                    label: const Text('Continuar con Google'),
+                  ),
                 if (authError != null) ...[
                   const SizedBox(height: 10),
                   Text(
