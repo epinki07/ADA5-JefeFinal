@@ -16,6 +16,23 @@ class FakeCatalogApi extends ProductApi {
   }
 }
 
+class RecordingCatalogApi extends FakeCatalogApi {
+  Map<String, dynamic>? savedProduct;
+  int? savedId;
+  int? deletedId;
+
+  @override
+  Future<void> saveProduct(Map<String, dynamic> product, {int? id}) async {
+    savedProduct = product;
+    savedId = id;
+  }
+
+  @override
+  Future<void> deleteProduct(int id) async {
+    deletedId = id;
+  }
+}
+
 final sampleProducts = <Map<String, dynamic>>[
   {
     'productId': 1,
@@ -99,4 +116,84 @@ void main() {
       expect(find.text('Asistente de compras'), findsOneWidget);
     },
   );
+
+  testWidgets('creates a product and refreshes the catalog', (tester) async {
+    final added = {
+      'productId': 3,
+      'name': 'Pera',
+      'categoryId': 1,
+      'category': {'category': 'Frutas'},
+      'price': 19.5,
+      'stock': 4,
+      'imageUrl': '',
+    };
+    final api = RecordingCatalogApi()
+      ..results.add(() async => sampleProducts)
+      ..results.add(() async => [...sampleProducts, added]);
+    await tester.pumpWidget(MaterialApp(home: ProductsScreen(api: api)));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Agregar'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Nombre'),
+      'Pera',
+    );
+    await tester.tap(
+      find.widgetWithText(DropdownButtonFormField<int>, 'Categoría'),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Frutas').last);
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Precio'),
+      '19.5',
+    );
+    await tester.enterText(find.widgetWithText(TextFormField, 'Stock'), '4');
+    await tester.tap(find.text('Guardar'));
+    await tester.pumpAndSettle();
+
+    expect(api.savedId, isNull);
+    expect(api.savedProduct, containsPair('name', 'Pera'));
+    expect(api.savedProduct, containsPair('categoryId', 1));
+    expect(api.savedProduct, containsPair('price', 19.5));
+    expect(api.calls, 2);
+    expect(find.text('Pera'), findsOneWidget);
+  });
+
+  testWidgets('edits and deletes a product with confirmation', (tester) async {
+    final renamed = {...sampleProducts.first, 'name': 'Manzana roja'};
+    final api = RecordingCatalogApi()
+      ..results.add(() async => sampleProducts)
+      ..results.add(() async => [renamed, sampleProducts.last])
+      ..results.add(() async => [sampleProducts.last]);
+    await tester.pumpWidget(MaterialApp(home: ProductsScreen(api: api)));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Editar').first);
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Nombre'),
+      'Manzana roja',
+    );
+    await tester.tap(find.text('Guardar'));
+    await tester.pumpAndSettle();
+    expect(api.savedId, 1);
+    expect(api.savedProduct, containsPair('name', 'Manzana roja'));
+    expect(find.text('Manzana roja'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Eliminar').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancelar'));
+    await tester.pumpAndSettle();
+    expect(api.deletedId, isNull);
+
+    await tester.tap(find.byTooltip('Eliminar').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Eliminar').last);
+    await tester.pumpAndSettle();
+    expect(api.deletedId, 1);
+    expect(api.calls, 3);
+    expect(find.text('Manzana roja'), findsNothing);
+  });
 }

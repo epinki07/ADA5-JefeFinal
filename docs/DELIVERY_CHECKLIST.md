@@ -22,7 +22,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | --- | --- | --- |
 | Public Supabase `productos` bucket and product images | Pending | Create the bucket, upload images, store public HTTPS URLs, and record bucket plus mobile evidence. |
 | Image, category, price, stock cards; search/filter | Code and widget checks only | Record actual images, fallback, search, filter, and no-results behavior on device. |
-| Product GET, POST, PUT, DELETE and Retry | Backend and widget checks only | Demonstrate each action on device, confirm persistence after restart, and stop/restart backend to prove Retry. |
+| Product GET, POST, PUT, DELETE and Retry | Backend and widget checks only | Widget tests now cover create, edit, cancel/delete, refresh, and Retry. Demonstrate each action on device, confirm persistence after restart, and stop/restart backend to prove Retry. |
 | Profile and Google Sign-In | Code only | Configure Firebase provider and platform OAuth; demonstrate login, profile, and logout on device. |
 | Assistant, voice search, extra animation | Local tests only | Demonstrate with a real provider key kept on the server, microphone permission and recognized product name, and visible animation. Claim optional points only after this evidence exists. |
 | Invoice integration | Awaiting scope | Confirm internal receipt versus stamped CFDI before implementation. |
@@ -31,7 +31,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 
 ## Local verification snapshot
 
-- November 23: `flutter test` passed all eight tests after the catalog assistant placement fix, including its new access-path test.
+- November 23: `flutter test` passed all ten tests after adding catalog create/edit/delete widget checks, including the assistant access-path test.
 - November 23: targeted `dart analyze` for the changed catalog screen and widget test found no issues.
 - November 23: `backend/./gradlew test` passed.
 - `flutter analyze` and mobile launch remain dependent on a real local `app/lib/firebase_options.dart`; the repository intentionally does not contain it.

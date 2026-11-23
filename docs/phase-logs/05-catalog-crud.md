@@ -23,3 +23,15 @@
 - PostgreSQL API checks passed: GET categories returned three, POST created product 11, DELETE returned 200, and GET products returned the original ten active products.
 - The mobile UI path remains unverified because the real Firebase options file is absent.
 - Added injectable `ProductApi` to `ProductsScreen` for widget-level behavior checks. Tests verified name search, category filtering, server-unavailable text, and Retry. The Retry test found a real `setState` error: its callback returned a `Future`. Changed it to a synchronous callback that stores the new future. The full Flutter suite passed (7 tests). Mobile acceptance still remains.
+
+## November 23 follow-up plan
+
+- Starting commit: `ff33a8a`.
+- Add widget-level create, edit, and delete checks using an injectable catalog API. Verify request payloads and catalog refresh after successful writes.
+- Run targeted and full Flutter tests, then update the delivery checklist. A mock API check does not close the device and PostgreSQL persistence gate.
+
+## November 23 follow-up result
+
+- Added a recording catalog API in the widget tests. The create check asserts name, category, price, and a refreshed list. The edit/delete check asserts the edited ID and payload, that Cancel does not delete, that confirmation sends the correct ID, and that the list refreshes.
+- `flutter test test/products_screen_test.dart`: five tests passed. `flutter test`: ten tests passed. Targeted Dart analysis found no issues; `git diff --check` passed.
+- API persistence had already been checked locally against PostgreSQL in this phase. A combined mobile-to-PostgreSQL acceptance run remains open because real Firebase options are absent.
