@@ -41,4 +41,4 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 Mark a requirement complete only after code review and a successful on-device demonstration. Screenshots, Git history, and Teams submissions are separate delivery artifacts.
 
-Use [the delivery checklist](DELIVERY_CHECKLIST.md) to track evidence and submission links. The twelve commits preceding the November 23 delivery-readiness phase are dated November 18, and the local repository has no remote.
+Use [the delivery checklist](DELIVERY_CHECKLIST.md) to track evidence and submission links. The public repository has commits on two distinct days, November 18 and November 23.

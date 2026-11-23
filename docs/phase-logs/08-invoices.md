@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-- Status: internal receipt implementation and PostgreSQL verification complete
+- Status: internal receipt flow verified on Android and PostgreSQL
 - Starting commit: `9a4c48e`
 - Source: `ADA5/sources/SistemaFacturacion` at `67219dd43a1451584d4f63024c5ad278f8278920`
 - Rubric impact: invoices are an owner-requested integration beyond the ADA5 product rubric.
@@ -34,9 +34,11 @@ The reference application models receipts, invoice details, and taxes. The integ
 
 - [x] Internal receipt scope and source reference documented
 - [x] Decimal totals and data persistence verified against PostgreSQL
-- [ ] Mobile create/history flow verified on device
+- [x] Mobile create/history flow verified on Android API 36
 - [x] Existing catalog and authentication checks pass
 
 ## Verification
 
 The Spring Boot suite verifies price and quantity validation, idempotent replay, historical product names and prices, and rollback of stock changes. A separate PostgreSQL database verifies two simultaneous requests against the same stock, with one sale and one conflict, plus receipt and stock persistence after an API restart.
+
+Android recorded sale `V-00001` for MXN 29.00 using two bolillos and one concha. The create response, sales history, and receipt detail agreed. Product API responses confirmed stock reductions of two and one units. The receipt was reopened from the Android history.

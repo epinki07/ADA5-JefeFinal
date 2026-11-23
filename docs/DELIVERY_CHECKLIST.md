@@ -6,7 +6,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 
 | Evidence | Status | Capture or action |
 | --- | --- | --- |
-| Repository link | Pending | This local repository has no Git remote. Choose the final repository name, publish under the owner's account, and verify the link. |
+| Repository link | Published | Public repository under the owner's account. [ADA5-JefeFinal](https://github.com/epinki07/ADA5-JefeFinal) |
 | Credentials absent from Git | Locally checked | Ignored Firebase and platform files are not tracked. Repeat the filename/content audit before publishing. |
 | Three commits on three distinct days | Pending | The twelve commits preceding this phase are all dated November 18. This November 23 delivery-readiness commit establishes a second day; a third distinct day is still required. Do not alter commit dates to satisfy the rubric. |
 | Registration with institutional address and password rules | Android local demo verified | Captured the form validation and checked successful registration and return to login. Verify with the owner's Firebase project. |
@@ -25,7 +25,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | Product GET, POST, PUT, DELETE and Retry | Backend and widget checks only | Widget tests now cover create, edit, cancel/delete, refresh, and Retry. Demonstrate each action on device, confirm persistence after restart, and stop/restart backend to prove Retry. |
 | Profile and Google Sign-In | Code only | Configure Firebase provider and platform OAuth; demonstrate login, profile, and logout on device. |
 | Assistant, voice search, extra animation | Local tests only | Demonstrate with a real provider key kept on the server, microphone permission and recognized product name, and visible animation. Claim optional points only after this evidence exists. |
-| Sales and internal receipt | API and PostgreSQL verified | Record a sale in Android and reopen the saved receipt from history. Internal receipts use catalog prices and MXN; fiscal stamping requires separate configuration. |
+| Sales and internal receipt | Android and PostgreSQL verified | Recorded `V-00001` for MXN 29.00, confirmed stock deductions, and reopened the receipt from the history. |
 | Four later commits across three later days | Pending | Audit dates after Hito 1. The November 18 baseline contains twelve commits; this November 23 phase starts a second date. |
 | Final video, repository, bucket, Teams, review | Pending | Verify links and video by December 1; record the December 2 in-person review separately. |
 
@@ -39,7 +39,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 - November 23: `backend/./gradlew test` passed.
 - `flutter analyze` and mobile launch remain dependent on a real local `app/lib/firebase_options.dart`; the repository intentionally does not contain it.
 - Local Android checks use `Flutter_Pixel_API_36`. Real-account verification requires the owner's Firebase project configuration.
-- The repository has no remote. The verified history contains two distinct commit days, November 18 and November 23.
+- The repository is public. The verified history contains two distinct commit days, November 18 and November 23.
 
 ## Teams message draft — Hito 1
 
@@ -47,7 +47,7 @@ Replace bracketed fields only with verified evidence before sending:
 
 > ADA 5 — Hito 1
 >
-> Repositorio: [verified GitHub URL]
+> Repositorio: https://github.com/epinki07/ADA5-JefeFinal
 >
 > Evidencia móvil: [video or image folder URL]
 >
@@ -57,4 +57,4 @@ Replace bracketed fields only with verified evidence before sending:
 
 The message is a draft. Its feature sentence must be shortened if any device criterion remains unverified at submission time.
 
-The advance package contains the source, six Android captures, and the ten-product API response. The recovery capture documents the local Firebase Auth Emulator flow. Production inbox delivery and the remote repository link remain open.
+The Hito 1 package contains the source, six Android captures, and the ten-product API response. The recovery capture documents the local Firebase Auth Emulator flow. Production inbox delivery remains open.
