@@ -12,7 +12,7 @@ An in-progress Flutter mobile application and Spring Boot product API for the AD
 
 ## Current status
 
-This is a baseline, not a completed submission. The app already calls `GET /products`, signs in with Firebase, signs out, and offers a retry button. The backend already exposes product read, create, and delete operations. See [rubric trace](docs/RUBRIC_TRACE.md) for evidence and remaining work.
+The Flutter app includes Firebase authentication, product browsing and editing, and network retry. Spring Boot exposes the product API and runs against PostgreSQL for assignment demonstrations. See the [rubric trace](docs/RUBRIC_TRACE.md) for verification and remaining work.
 
 Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase gets a log based on [the template](docs/PHASE_LOG_TEMPLATE.md), including source movement, tests, failures, and the exit gate.
 
@@ -26,7 +26,7 @@ For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSW
 
 The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
 
-The PostgreSQL path has been verified against a local test database. Firebase device setup, a billable-product theme, and mobile acceptance tests still need to be completed. Do not use this baseline as evidence that the assignment is finished.
+The PostgreSQL path has been verified against a local test database. The [Android demonstration guide](app/README.md#android-demonstration-with-local-firebase) describes the credential-free Firebase Auth Emulator setup for Hito 1. Production Firebase and the previous-semester theme still require verification.
 
 ## Ownership
 

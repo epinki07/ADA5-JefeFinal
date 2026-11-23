@@ -9,11 +9,11 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | Repository link | Pending | This local repository has no Git remote. Choose the final repository name, publish under the owner's account, and verify the link. |
 | Credentials absent from Git | Locally checked | Ignored Firebase and platform files are not tracked. Repeat the filename/content audit before publishing. |
 | Three commits on three distinct days | Pending | The twelve commits preceding this phase are all dated November 18. This November 23 delivery-readiness commit establishes a second day; a third distinct day is still required. Do not alter commit dates to satisfy the rubric. |
-| Registration with institutional address and password rules | Code and widget checks only | On a configured Android device, record valid registration, invalid domain, weak password, duplicate account, and return to login. Hide account details. |
-| Generic login failure and Rive bear | Code and widget checks only | Record invalid credentials, loading/failure animation, successful login, and navigation. |
-| Password recovery | Code only | Use a controlled test account and record receipt of the recovery email without exposing the reset link. |
-| Ten products with category | PostgreSQL API verified November 18 | Record the API count and a mobile catalog screen backed by PostgreSQL. Check persistence after backend restart. |
-| Sign-out | Code only | Record the logout action and that the catalog cannot be reached afterward. |
+| Registration with institutional address and password rules | Android local demo verified | Captured the form validation and checked successful registration and return to login. Verify with the owner's Firebase project. |
+| Generic login failure and Rive bear | Android local demo verified | Captured the Rive login screen and generic wrong-password message. |
+| Password recovery | Android local demo verified | The Auth Emulator generated a reset code. Use a controlled real account to verify inbox delivery without exposing the link. |
+| Ten products with category | Android and PostgreSQL API verified | Captured product categories on Android and saved the API response with ten products. Phase 03 recorded persistence across a backend restart. |
+| Sign-out | Android local demo verified | Captured the return to login and verified that Back does not reopen the catalog. |
 | Teams submission and review | Pending | Send the verified repository and evidence links on November 24. Record the November 25 in-person review after it happens. |
 
 ## Hito 2 — due December 1
@@ -31,12 +31,15 @@ Prepared November 23, 2026. This file separates local verification from evidence
 
 ## Local verification snapshot
 
+- November 23: rebuilt the Android ARM64 demo APK and opened the Rive login screen on the API 36 emulator. The demo uses the local Firebase Auth Emulator.
+- November 23: reran all 10 Flutter and 13 Spring Boot tests. Targeted Dart analysis passed for the demo entry point, shared app, screens, API client, and tests.
+- November 23: loaded ten products across three categories into a fresh PostgreSQL database and verified `GET /products`. Reapplying the seed inserted zero rows.
 - November 23: `flutter test` passed all ten tests after adding catalog create/edit/delete widget checks, including the assistant access-path test.
 - November 23: targeted `dart analyze` for the changed catalog screen and widget test found no issues.
 - November 23: `backend/./gradlew test` passed.
 - `flutter analyze` and mobile launch remain dependent on a real local `app/lib/firebase_options.dart`; the repository intentionally does not contain it.
-- `flutter devices` found macOS and Chrome, but no connected mobile device. `flutter emulators` found `Flutter_Pixel_API_36`, which still needs Firebase configuration before an acceptance run.
-- `git remote -v` returned no remote. The twelve commits before this phase were all dated November 18; verify the November 23 commit and second distinct date after committing.
+- Local Android checks use `Flutter_Pixel_API_36`. Real-account verification requires the owner's Firebase project configuration.
+- The repository has no remote. The verified history contains two distinct commit days, November 18 and November 23.
 
 ## Teams message draft — Hito 1
 
@@ -53,3 +56,5 @@ Replace bracketed fields only with verified evidence before sending:
 > Integrante: Diego Ramírez Magaña.
 
 The message is a draft. Its feature sentence must be shortened if any device criterion remains unverified at submission time.
+
+The advance package contains the source, six Android captures, and the ten-product API response. The recovery capture documents the local Firebase Auth Emulator flow. Production inbox delivery and the remote repository link remain open.

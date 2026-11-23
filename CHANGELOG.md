@@ -1,5 +1,11 @@
 # Change log
 
+## 2026-11-23 — Phase 10: Hito 1 demonstration
+
+- Added an Android demonstration entry point that uses the Firebase Auth Emulator and shares the normal Flutter screens.
+- Rechecked Flutter and Spring Boot tests. Verified ten products across three PostgreSQL categories and confirmed that a second seed run added zero rows.
+- Built the ARM64 APK and checked registration, the generic login error, local password recovery, catalog categories, and sign-out on Android API 36.
+
 ## 2026-11-23 — Phase 9: delivery readiness
 
 - Moved the shopping assistant action to the catalog toolbar. It had accidentally been placed inside the delete confirmation; added a widget test for access and dialog contents.

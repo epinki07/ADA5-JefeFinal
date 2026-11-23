@@ -4,9 +4,11 @@
 **/application-dev.properties
 **/application-local.properties
 **/firebase_options.dart
+firebase-debug.log*
 **/google-services.json
 **/GoogleService-Info.plist
 **/build/
 **/.dart_tool/
 **/.gradle/
+**/.kotlin/
 **/target/

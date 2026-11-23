@@ -6,14 +6,14 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
-| Generic login error; retain bear animation, loading, and navigation | Partial | Field-specific errors were removed; code still needs a live Firebase and device acceptance check. |
-| Registration with institutional email and password rules | Partial | `SignUpScreen` is implemented and statically analyzed; live Firebase/device verification remains. |
-| Password recovery | Partial | Reset screen calls Firebase and is statically analyzed; real email receipt remains unverified. |
-| Sign-out | Present | `ProductsScreen` calls Firebase `signOut()`. Verify on device. |
-| Previous semester theme and at least 10 products | Partial | The owner chose the market model; PostgreSQL now contains ten products in a local integration test. Previous-theme compliance and device evidence remain unverified. |
-| Show product category | Partial | The Flutter list now reads the nested category; device verification remains. |
+| Generic login error; retain bear animation, loading, and navigation | Partial | Android API 36 displayed the Rive login and generic error, and opened the catalog after successful login with Firebase Auth Emulator. Production Firebase remains unverified. |
+| Registration with institutional email and password rules | Partial | Android displayed form validation and returned to login after creating a test account against Firebase Auth Emulator. Production Firebase remains unverified. |
+| Password recovery | Partial | The Android request generated a local Auth Emulator reset code. Real inbox delivery remains unverified. |
+| Sign-out | Present | Android returned to login and Back did not reopen the catalog after signing out of the local Firebase session. |
+| Previous semester theme and at least 10 products | Partial | PostgreSQL served the owner's selected market catalog with ten products across three categories, and Android displayed the catalog. Previous-theme compliance remains unverified. |
+| Show product category | Present | Android displayed category names returned by Spring Boot and PostgreSQL. |
 | Keep credentials out of GitHub | Partial | Ignore rules exist; audit tracked files and setup instructions before publication. |
-| Mobile evidence and three commits on three different days | Missing | Produce evidence and record work over the required days. |
+| Mobile evidence and three commits on three different days | Partial | The Hito 1 advance includes six Android captures. Git history covers two distinct days. |
 
 ## Milestone 2 — 30 points, due December 1, 2026
 

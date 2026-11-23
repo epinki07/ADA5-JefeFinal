@@ -11,6 +11,23 @@ This app provides Firebase email/password registration, login, recovery, Google 
 
 The optional assistant calls `POST /assistant` through the backend. Set `GEMINI_API_KEY` only in the backend environment to enable a real provider response. The catalog remains usable without this key.
 
+## Android demonstration with local Firebase
+
+Use an Android Studio emulator, PostgreSQL, Java, Flutter, and Node.js. Start the backend with the PostgreSQL profile on port 8090 and apply `backend/sql/seed-postgres.sql` as described above. Then run these commands in separate terminals:
+
+```sh
+# Repository root
+npx --yes firebase-tools@15.37.0 emulators:start --only auth --project demo-ada5
+```
+
+```sh
+# app/
+flutter pub get
+flutter run --target lib/main_demo.dart
+```
+
+The demo uses Firebase Authentication's local emulator on port 9099. Register a fictitious account with the institutional domain and enter the same credentials at login. The emulator prints recovery links in its local console. Use the standard `lib/main.dart` entry point and a configured Firebase project to verify delivery to a real inbox and Google sign-in.
+
 ## Checks
 
 Run `flutter test` for local widget tests. Run `flutter analyze` after providing the local Firebase options file. A successful widget suite does not verify Firebase providers, microphone permissions, image hosting, or mobile network behavior; those need device checks recorded in `../docs/DELIVERY_CHECKLIST.md`.
