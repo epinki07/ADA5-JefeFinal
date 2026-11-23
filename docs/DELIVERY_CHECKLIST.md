@@ -25,7 +25,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | Product GET, POST, PUT, DELETE and Retry | Backend and widget checks only | Widget tests now cover create, edit, cancel/delete, refresh, and Retry. Demonstrate each action on device, confirm persistence after restart, and stop/restart backend to prove Retry. |
 | Profile and Google Sign-In | Code only | Configure Firebase provider and platform OAuth; demonstrate login, profile, and logout on device. |
 | Assistant, voice search, extra animation | Local tests only | Demonstrate with a real provider key kept on the server, microphone permission and recognized product name, and visible animation. Claim optional points only after this evidence exists. |
-| Invoice integration | Awaiting scope | Confirm internal receipt versus stamped CFDI before implementation. |
+| Sales and internal receipt | API and PostgreSQL verified | Record a sale in Android and reopen the saved receipt from history. Internal receipts use catalog prices and MXN; fiscal stamping requires separate configuration. |
 | Four later commits across three later days | Pending | Audit dates after Hito 1. The November 18 baseline contains twelve commits; this November 23 phase starts a second date. |
 | Final video, repository, bucket, Teams, review | Pending | Verify links and video by December 1; record the December 2 in-person review separately. |
 

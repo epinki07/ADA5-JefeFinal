@@ -10,6 +10,7 @@ import mx.edu.tecdesoftware.market_backend.persistence.entity.Producto;
 import mx.edu.tecdesoftware.market_backend.persistence.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -69,8 +70,9 @@ public class ProductoRepository implements ProductRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Product> update(int productId, Product changes) {
-        return productoCrudRepository.findByIdProductoAndEstadoTrue(productId).map(producto -> {
+        return productoCrudRepository.findForUpdate(productId).filter(Producto::isEstado).map(producto -> {
             producto.setNombre(changes.getName());
             producto.setIdCategoria(changes.getCategoryId());
             producto.setPrecioVenta(changes.getPrice());
@@ -84,8 +86,9 @@ public class ProductoRepository implements ProductRepository {
 
     //Elimina un producto
     @Override
+    @Transactional
     public void delete(int productId){
-        productoCrudRepository.findById(productId).ifPresent(producto -> {
+        productoCrudRepository.findForUpdate(productId).ifPresent(producto -> {
             producto.setEstado(false);
             productoCrudRepository.save(producto);
         });

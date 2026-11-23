@@ -1,6 +1,6 @@
 # ADA 5 Flutter app
 
-This app provides Firebase email/password registration, login, recovery, Google sign-in, a product catalog with search and CRUD, profile settings, voice search, and an optional shopping assistant. The Spring Boot API lives in `../backend/`.
+This app provides Firebase email/password registration, login, recovery, Google sign-in, a product catalog with search and CRUD, and sales with internal receipts and history. It also has profile settings, voice search, and an optional shopping assistant. The Spring Boot API lives in `../backend/`.
 
 ## Local setup
 
@@ -27,6 +27,8 @@ flutter run --target lib/main_demo.dart
 ```
 
 The demo uses Firebase Authentication's local emulator on port 9099. Register a fictitious account with the institutional domain and enter the same credentials at login. The emulator prints recovery links in its local console. Use the standard `lib/main.dart` entry point and a configured Firebase project to verify delivery to a real inbox and Google sign-in.
+
+From the product list, tap **Ventas**, then **Nueva venta**. Choose quantities and a payment method. Register the sale to see its receipt, then return to the history and reopen it. The catalog refreshes stock when you return to it.
 
 ## Checks
 

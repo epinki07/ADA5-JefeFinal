@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-- Status: contract review in progress; implementation choice pending owner clarification
+- Status: internal receipt implementation and PostgreSQL verification complete
 - Starting commit: `9a4c48e`
 - Source: `ADA5/sources/SistemaFacturacion` at `67219dd43a1451584d4f63024c5ad278f8278920`
 - Rubric impact: invoices are an owner-requested integration beyond the ADA5 product rubric.
@@ -22,13 +22,21 @@
 4. Expose invoice creation and history to Flutter only after the draft-versus-CFDI scope is confirmed. Do not assume a tax rate or represent an internal receipt as a stamped fiscal document.
 5. Test calculation, persistence after restart, error paths, and product endpoint regressions. Add Firebase authorization before any public deployment.
 
-## Open clarification
+## Implementation
 
-The owner was asked whether the requested output is an internal sales draft/receipt or a valid SAT CFDI. The source repository supports the former model but does not implement fiscal stamping. No invoice code has been copied or merged yet.
+Continue from `b931a1f` using the internal sales receipt supported by the reference model. The receipt records catalog price snapshots and MXN totals. Fiscal stamping requires a separately configured provider and confirmed fiscal requirements.
+
+## Original clarification
+
+The reference application models receipts, invoice details, and taxes. The integrated sales flow uses the same header and line-item structure with the current catalog in PostgreSQL. It records the catalog price as the final amount in MXN and produces an internal receipt. CFDI issuance would require a fiscal specification and a stamping service.
 
 ## Exit gate
 
-- [ ] Scope confirmed and source movement documented
-- [ ] Decimal totals and data persistence verified against PostgreSQL
+- [x] Internal receipt scope and source reference documented
+- [x] Decimal totals and data persistence verified against PostgreSQL
 - [ ] Mobile create/history flow verified on device
-- [ ] Mandatory catalog and authentication regressions pass
+- [x] Existing catalog and authentication checks pass
+
+## Verification
+
+The Spring Boot suite verifies price and quantity validation, idempotent replay, historical product names and prices, and rollback of stock changes. A separate PostgreSQL database verifies two simultaneous requests against the same stock, with one sale and one conflict, plus receipt and stock persistence after an API restart.

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../product_api.dart';
+import '../sales_api.dart';
 import 'login_screen.dart';
 import 'product_form_screen.dart';
+import 'sales_screen.dart';
 import 'settings_screen.dart';
 import 'shopping_assistant_screen.dart';
 
@@ -38,6 +40,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
     setState(() {
       _products = _api.getProducts();
     });
+  }
+
+  Future<void> _openSales() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            SalesScreen(products: _api, sales: SalesApi(_api.baseUrl)),
+      ),
+    );
+    if (mounted) _retry();
   }
 
   Future<void> _toggleSpeech() async {
@@ -178,7 +191,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catálogo de productos'),
+        title: const Text('Catálogo'),
         actions: [
           IconButton(
             tooltip: 'Asistente de compras',
@@ -209,6 +222,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             icon: const Icon(Icons.logout),
           ),
         ],
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+        child: FilledButton.tonalIcon(
+          onPressed: _openSales,
+          icon: const Icon(Icons.point_of_sale),
+          label: const Text('Ventas'),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _products,

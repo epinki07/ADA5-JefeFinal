@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -35,6 +36,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AssistantUnavailableException.class)
     public ResponseEntity<ApiError> handleAssistantUnavailable(AssistantUnavailableException exception) {
         return buildError(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ApiError> handleStatus(ResponseStatusException exception) {
+        return buildError(HttpStatus.valueOf(exception.getStatusCode().value()), exception.getReason());
     }
 
     private ResponseEntity<ApiError> buildError(HttpStatus status, String message) {

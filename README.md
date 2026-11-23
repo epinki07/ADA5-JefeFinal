@@ -1,11 +1,11 @@
 # ADA5 Jefe Final
 
-An in-progress Flutter mobile application and Spring Boot product API for the ADA5 integrative assignment. The repository is assembled from existing projects owned by `epinki07`. The billing API remains a reference until its data model can be integrated without weakening the assignment requirements.
+A Flutter point-of-sale app and Spring Boot API for the ADA5 integrative assignment. The app uses the product catalog to register sales in PostgreSQL, deduct stock, and display each internal receipt and the sales history.
 
 ## Layout
 
-- `app/`: Flutter app with Rive bear login, Firebase Authentication, and a product list.
-- `backend/`: Spring Boot product and purchase API.
+- `app/`: Flutter app with Rive login, Firebase Authentication, catalog, sales, and receipts.
+- `backend/`: Spring Boot catalog, purchase, and sales endpoints.
 - `docs/`: source inventory, [phase plan](docs/PHASE_PLAN.md), phase logs, rubric trace, and decisions.
 - [Delivery checklist](docs/DELIVERY_CHECKLIST.md): evidence, Git dates, external setup, and Teams draft.
 - `CHANGELOG.md`: English record of each integration change.
@@ -13,6 +13,14 @@ An in-progress Flutter mobile application and Spring Boot product API for the AD
 ## Current status
 
 The Flutter app includes Firebase authentication, product browsing and editing, and network retry. Spring Boot exposes the product API and runs against PostgreSQL for assignment demonstrations. See the [rubric trace](docs/RUBRIC_TRACE.md) for verification and remaining work.
+
+## Sales demonstration
+
+1. Start PostgreSQL, the Spring Boot API, Firebase Auth Emulator, and Android using the [local demonstration guide](app/README.md#android-demonstration-with-local-firebase).
+2. Sign in, open **Ventas**, and choose **Nueva venta**. Select product quantities and a payment method, then register the sale.
+3. The app shows the folio, line items, and total in MXN. Open the same receipt from sales history or use `GET /sales/{id}` in [local Swagger](http://localhost:8090/swagger-ui.html).
+
+The API verifies current price and stock when it records a sale, saves the receipt and stock change in one transaction, and handles retries using the original request ID. Product names and prices are preserved on saved receipts. The receipt is an internal sales document. Payment processing and CFDI stamping require separate integrations.
 
 Follow the [full development plan](docs/PHASE_PLAN.md). Each implemented phase gets a log based on [the template](docs/PHASE_LOG_TEMPLATE.md), including source movement, tests, failures, and the exit gate.
 
@@ -26,7 +34,7 @@ For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSW
 
 The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
 
-The PostgreSQL path has been verified against a local test database. The [Android demonstration guide](app/README.md#android-demonstration-with-local-firebase) describes the credential-free Firebase Auth Emulator setup for Hito 1. Production Firebase and the previous-semester theme still require verification.
+The PostgreSQL path has been verified against a local test database. The Android demonstration uses Firebase Auth Emulator. Production Firebase, the previous-semester theme, and externally hosted images still require verification. Keep the backend on a private development interface for the demonstration.
 
 ## Ownership
 

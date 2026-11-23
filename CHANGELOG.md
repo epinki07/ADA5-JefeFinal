@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-11-23 — Sales and internal receipts
+
+- Added a mobile sales form with catalog quantities, payment method, internal receipt, and sales history.
+- Added transactional PostgreSQL recording, decimal totals, price and stock checks, and idempotent retries.
+- Reused the active catalog and coordinated its updates with sale stock deductions.
+- Verified proportional stock reduction, concurrent requests, rejected stale prices, and saved receipts after a backend restart.
+
 ## 2026-11-23 — Phase 10: Hito 1 demonstration
 
 - Added an Android demonstration entry point that uses the Firebase Auth Emulator and shares the normal Flutter screens.

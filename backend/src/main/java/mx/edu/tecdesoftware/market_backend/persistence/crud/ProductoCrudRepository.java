@@ -1,5 +1,9 @@
 package mx.edu.tecdesoftware.market_backend.persistence.crud;
 
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.CrudRepository;
 import mx.edu.tecdesoftware.market_backend.persistence.entity.Producto;
 import java.util.List;
@@ -21,6 +25,10 @@ public interface ProductoCrudRepository extends CrudRepository<Producto, Integer
     List<Producto> findByEstadoTrue();
     List<Producto> findByIdCategoriaAndEstadoTrueOrderByNombreAsc(int idCategoria);
     Optional<Producto> findByIdProductoAndEstadoTrue(int idProducto);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select p from Producto p where p.idProducto = :id")
+    Optional<Producto> findForUpdate(@Param("id") int id);
 
     // Obtener los productos escasos
     Optional<List<Producto>> findByCantidadStockLessThanAndEstado(int cantidad,boolean estado);
