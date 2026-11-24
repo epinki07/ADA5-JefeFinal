@@ -73,6 +73,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 
 - The production smoke test verified live Firebase tokens and PostgreSQL with isolated test data. A catalog reader was denied write and sales access. An operator recorded, replayed, and retrieved a sale while stock changed once. Both temporary identities and the database were removed after testing.
 - GitHub Actions built and verified the Java container with PostgreSQL. Local Flutter passed analysis and 13 tests. The backend passed 19 tests.
+- The current Android demo completed checkout against the updated API on port 8090, reopening the persisted receipt and confirming stock deduction. Wrangler built the container in a dry run, then its local Worker served the health check and product photo from Spring Boot and returned HTTP 401 for anonymous catalog access.
 - `flutter test` passed (2 tests).
 - `backend/./gradlew test` passed.
 - `flutter analyze` reported two issues at `app/lib/main.dart` because `lib/firebase_options.dart` is intentionally untracked and is not yet configured locally.

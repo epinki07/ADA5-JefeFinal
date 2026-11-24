@@ -2,6 +2,7 @@ import { DurableObject } from 'cloudflare:workers';
 
 const apiRoutes = /^\/(?:products|categories|sales|purchases|assistant)(?:\/|$)/;
 const publicRoutes = /^\/(?:healthz$|catalog-images\/)/;
+const bearerToken = /^Bearer +\S+$/i;
 
 export default {
   fetch(request, env) {
@@ -10,7 +11,7 @@ export default {
       if (!apiRoutes.test(pathname)) {
         return new Response(null, { status: 404 });
       }
-      if (!request.headers.get('authorization')?.startsWith('Bearer ')) {
+      if (!bearerToken.test(request.headers.get('authorization') ?? '')) {
         return new Response(null, {
           status: 401,
           headers: { 'WWW-Authenticate': 'Bearer', 'Cache-Control': 'no-store' },
@@ -25,7 +26,7 @@ export class Ada5Api extends DurableObject {
   async fetch(request) {
     const container = this.ctx.container;
     try {
-      if (!container.running) {
+      if (!this.starting && !container.running) {
         const { DB_URL, DB_USER, DB_PASSWORD, ADA5_FIREBASE_PROJECT_ID } = this.env;
         if (!DB_URL || !DB_USER || !DB_PASSWORD || !ADA5_FIREBASE_PROJECT_ID) {
           throw new Error('Missing the ADA5 database or Firebase configuration.');

@@ -6,6 +6,7 @@
 - Added the PostgreSQL health endpoint, Docker build, and Cloudflare deployment configuration. GitHub Actions verified the deployment image with PostgreSQL.
 - Reused HTTP connections, adjusted catalog image decoding to the display size, loaded product categories in the same query, and reduced the sign-in transition by 1.6 seconds.
 - Verified the protected API with live Firebase test accounts and temporary PostgreSQL data. A reader could load the catalog, while an operator could save and retrieve a sale, retry it, and verify that stock was deducted once.
+- Verified checkout, saved receipt, sales history, and stock deduction from the Android emulator against the current JAR. Verified that the local Cloudflare Worker starts the Docker image, serves catalog photos, and rejects anonymous catalog access.
 - Added iOS build automation, local Firebase configuration generation, and TestFlight setup documentation.
 
 ## 2026-11-23 — Catalog photos and Firebase Android setup

@@ -1,4 +1,5 @@
 # Local credentials and generated files across the monorepo.
+.DS_Store
 .env
 .env.*
 **/application-dev.properties
@@ -14,4 +15,5 @@ firebase-debug.log*
 **/.dart_tool/
 **/.gradle/
 **/.kotlin/
+**/.wrangler/
 **/target/
