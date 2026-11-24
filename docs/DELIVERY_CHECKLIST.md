@@ -11,7 +11,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | Three commits on three distinct days | Pending | The twelve commits preceding this phase are all dated November 18. This November 23 delivery-readiness commit establishes a second day; a third distinct day is still required. Do not alter commit dates to satisfy the rubric. |
 | Registration with institutional address and password rules | Android and live Firebase verified | Captured form validation with the Auth Emulator. Android created a temporary institutional-domain account against the live Firebase project, returned to login, and later authenticated it. |
 | Generic login failure and Rive bear | Android and live Firebase verified | Captured Rive in the local demo. The live Android build showed the generic error for a wrong password, then signed in and displayed the matching Firebase UID. |
-| Password recovery | Android local demo verified | The Auth Emulator generated a reset code. Use a controlled real account to verify inbox delivery without exposing the link. |
+| Password recovery | Android and email delivery verified | The live Android build requested a reset through Firebase and the owner confirmed receipt in their mailbox. |
 | Ten products with category | Android and PostgreSQL API verified | Captured product categories on Android and saved the API response with ten products. Phase 03 recorded persistence across a backend restart. |
 | Sign-out | Android local demo verified | Captured the return to login and verified that Back does not reopen the catalog. |
 | Teams submission and review | Pending | Send the verified repository and evidence links on November 24. Record the November 25 in-person review after it happens. |
@@ -23,7 +23,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | Public Supabase `productos` bucket and product images | Pending | Create the bucket, upload images, store public HTTPS URLs, and record bucket plus mobile evidence. |
 | Image, category, price, stock cards; search/filter | Android and PostgreSQL verified | Ten bundled images loaded through the API. Android displayed the cards, filtered by name and category, and kept the existing image fallback. |
 | Product GET, POST, PUT, DELETE and Retry | Android and PostgreSQL verified | Created, edited, and deleted a temporary product with API readbacks. Airplane mode triggered the friendly error; Retry recovered the catalog after reconnection. |
-| Profile and Google Sign-In | Profile verified on live Firebase | Android displayed the account email and UID. Firebase issued the Google OAuth authorization URL and the local Android settings include its web client. The Android signing fingerprint and Google account sign-in on a Play-enabled device remain to be verified. |
+| Profile and Google Sign-In | Profile and account chooser verified | Android displayed the live Firebase email and UID through email/password sign-in. The APK opened the Google account chooser on the new Google APIs Android emulator. Selecting an account and returning to the catalog remain to be verified. |
 | Assistant, voice search, extra animation | Local tests only | Demonstrate with a real provider key kept on the server, microphone permission and recognized product name, and visible animation. Claim optional points only after this evidence exists. |
 | Sales and internal receipt | Android and PostgreSQL verified | Recorded `V-00001` for MXN 29.00, confirmed stock deductions, and reopened the receipt from the history. |
 | Four later commits across three later days | Pending | Audit dates after Hito 1. The November 18 baseline contains twelve commits; this November 23 phase starts a second date. |
@@ -58,4 +58,4 @@ Replace bracketed fields only with verified evidence before sending:
 
 The message is a draft. Its feature sentence must be shortened if any device criterion remains unverified at submission time.
 
-The Hito 1 package contains the source, six Android captures, and the ten-product API response. The recovery capture documents the local Firebase Auth Emulator flow. Production inbox delivery remains open.
+The Hito 1 package contains the source, six Android captures, and the ten-product API response. The original recovery capture documents Firebase Auth Emulator. A later Android run verified delivery to the owner's mailbox from the live project.

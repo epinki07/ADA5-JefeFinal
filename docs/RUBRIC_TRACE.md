@@ -8,7 +8,7 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | --- | --- | --- |
 | Generic login error; retain bear animation, loading, and navigation | Present | Android API 36 displayed the Rive login and generic error in the local demo. The live Firebase build signed in with email and password and opened the catalog. |
 | Registration with institutional email and password rules | Present | Android displayed form validation in the emulator demo and registered an institutional-domain test account against live Firebase. The app returned to login after creating the account. |
-| Password recovery | Partial | The Android request generated a local Auth Emulator reset code. Real inbox delivery remains unverified. |
+| Password recovery | Present | The live Android build requested a reset through Firebase and the owner confirmed receipt in a real inbox. |
 | Sign-out | Present | Android returned to login and Back did not reopen the catalog after signing out of the local Firebase session. |
 | Previous semester theme and at least 10 products | Partial | PostgreSQL served the owner's selected market catalog with ten products across three categories, and Android displayed the catalog. Previous-theme compliance remains unverified. |
 | Show product category | Present | Android displayed category names returned by Spring Boot and PostgreSQL. |
@@ -26,7 +26,7 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Product GET, POST, PUT, DELETE from Flutter | Present | Android created a temporary product, edited stock from 6 to 8, and deleted it. API readbacks checked PostgreSQL state after each mobile action. |
 | Friendly network error with Retry | Present | Android showed the friendly error in airplane mode and restored the catalog after reconnecting and tapping Retry. |
 | Settings screen with user profile and sign-out | Present | Android displayed the emulator account email, avatar, UID and creation date; sign-out was verified in the Hito 1 flow. |
-| Google Sign-In on a mobile device | Partial | Google is enabled and Firebase returned the project's web OAuth client for the local APK. Certificate verification and a successful Google sign-in on a Play-enabled Android device remain open. |
+| Google Sign-In on a mobile device | Partial | Google is enabled and its web OAuth client is configured. The local APK opened the Google account chooser on an Android emulator with Google Play services. Completing the account sign-in and returning to the catalog remain open. |
 | Mobile video, bucket evidence, four more commits across three later days | Partial | Android video shows photo cards, search, category filtering, profile, and the saved sale receipt. Supabase evidence and later commit dates remain open. |
 
 ## Optional extra credit — up to 11 points

@@ -38,7 +38,7 @@ Apply `backend/sql/catalog-images-postgres.sql` after the seed to display the in
 
 The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
 
-The PostgreSQL path has been verified against a local test database. The public Android demo uses Firebase Auth Emulator. A separate local build signed in to the owner's live Firebase project with email and password. Google sign-in, recovery email delivery, the previous-semester theme, and externally hosted images still require verification. Keep the backend on a private development interface for the demonstration.
+The PostgreSQL path has been verified against a local test database. The public Android demo uses Firebase Auth Emulator. A separate local build verified registration, email/password sign-in, and delivery of the recovery email against the owner's live Firebase project. Google sign-in, the previous-semester theme, and externally hosted images still require verification. Keep the backend on a private development interface for the demonstration.
 
 ## Ownership
 
