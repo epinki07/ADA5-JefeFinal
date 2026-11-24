@@ -19,6 +19,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          cache: gradle
+          cache-dependency-path: backend/**/*.gradle*
       - name: Run API tests
         working-directory: backend
         run: ./gradlew test

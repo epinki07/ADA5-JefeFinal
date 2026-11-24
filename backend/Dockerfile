@@ -10,6 +10,6 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=build /ada5.jar /app/ada5.jar
 ENV SPRING_PROFILES_ACTIVE=production
-USER 10001:10001
+USER 10001:1000
 EXPOSE 8090
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=45", "-jar", "/app/ada5.jar"]

@@ -14,7 +14,8 @@ Future<void> main() async {
       : 'android';
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: 'local-auth-emulator',
+      // Firebase Installations checks the key's format on iOS before Auth uses the emulator.
+      apiKey: 'A00000000000000000000000000000000000000',
       appId: '1:1:$appType:1',
       messagingSenderId: '1',
       projectId: 'demo-ada5',

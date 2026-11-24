@@ -22,13 +22,16 @@ class ApiClient {
   final http.Client _http;
   final bool _protectedApi;
   final ApiTokenReader _readToken;
+  static const _defaultTimeout = Duration(
+    seconds: int.fromEnvironment('ADA5_REQUEST_TIMEOUT_SECONDS', defaultValue: 25),
+  );
 
   Future<http.Response> request(
     String baseUrl,
     String path, {
     String method = 'GET',
     Map<String, Object?>? body,
-    Duration timeout = const Duration(seconds: 25),
+    Duration timeout = _defaultTimeout,
   }) {
     final base = baseUrl.replaceFirst(RegExp(r'/+$'), '');
     final uri = Uri.parse('$base$path');

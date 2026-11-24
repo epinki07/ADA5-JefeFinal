@@ -16,6 +16,16 @@ Use `GET /healthz` to check database connectivity. Initialize a new database by 
 
 Any signed-in account can browse the catalog. Operator accounts can change inventory, use sales history, issue receipts, and use the shopping assistant when configured. Verify that `GET /products` returns `401` without a token, and test a sale and the saved receipt with an operator account. Publish only the `production` profile.
 
+## Free demo on Render and Supabase
+
+The root `render.yaml` creates a Free Docker web service with managed HTTPS. Supabase Free supplies PostgreSQL and the [public catalog photo bucket](PRODUCT_IMAGES.md). Configure both services on their Free plans without a payment method for this demo. Render sleeps after 15 minutes of inactivity and can take about a minute to respond on the next request. Supabase can pause projects after a week of low activity. [Render Free services](https://render.com/docs/free) · [Supabase Free project pausing](https://supabase.com/docs/guides/platform/free-project-pausing)
+
+1. Create a dedicated Supabase project and use its SQL Editor to run `create schema if not exists ada5;`. Keep `ada5` out of the Data API's exposed schemas. Save the database password and download the CA certificate from Database Settings.
+2. In the Supabase **Connect** panel choose **Session pooler**. Use the displayed host, port, and user from that panel. In Render, add a new Blueprint linked to the repository. Enter database credentials in Render's environment settings and the Firebase user's UID as `ADA5_OPERATOR_UIDS`. [Supabase connection options](https://supabase.com/docs/guides/database/connecting-to-postgres)
+3. Add the downloaded CA certificate as a Render secret file named `supabase-ca.crt`. Set `DB_URL` to `jdbc:postgresql://<session-pooler-host>:5432/postgres?currentSchema=ada5&sslmode=verify-full&sslrootcert=/etc/secrets/supabase-ca.crt`. Spring Boot creates the tables in `ada5` when the service starts. [Render secret files](https://render.com/docs/docker-secrets)
+4. Apply `backend/sql/seed-postgres.sql` with `psql` and `PGOPTIONS='-c search_path=ada5'` or prepend `set search_path to ada5;` when running the file contents in the Supabase SQL Editor. Use the photo bucket for the public image URLs. Check `GET /healthz` and verify a sale on the deployed HTTPS address.
+5. Add `--dart-define=ADA5_REQUEST_TIMEOUT_SECONDS=90` to the mobile build when targeting the Free service to allow for a cold start.
+
 ## Cloudflare Containers
 
 The Worker in `deploy/cloudflare` forwards API requests to one Java container and keeps it warm for ten minutes after use. PostgreSQL runs in a separate managed database. Cloudflare Containers requires Workers Paid and usage may incur additional charges. [Cloudflare Containers pricing](https://developers.cloudflare.com/containers/platform/pricing/)

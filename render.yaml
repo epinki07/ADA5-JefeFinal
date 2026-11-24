@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ada5-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /healthz
+    buildFilter:
+      paths:
+        - backend/**
+        - render.yaml
+    envVars:
+      - key: PORT
+        value: '8090'
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: ADA5_FIREBASE_PROJECT_ID
+        value: ada-5-d8294
+      - key: ADA5_OPERATOR_UIDS
+        sync: false

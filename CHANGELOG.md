@@ -1,5 +1,11 @@
 # Change log
 
+## 2026-11-24 — Free hosting and iOS startup
+
+- Added a Free Render Blueprint with HTTPS and documented a dedicated Supabase PostgreSQL schema and photo bucket.
+- Made the Flutter API timeout configurable for the published app to handle a free service's cold start.
+- Verified iOS Firebase registration and sign-in through the Auth API. Updated the local demo key to satisfy the native Firebase SDK's format validation, as identified in the simulator launch log.
+
 ## 2026-11-23 — Protected mobile API and iOS build
 
 - Added Firebase token validation and explicit operator permissions for inventory changes, sales, and the shopping assistant.
