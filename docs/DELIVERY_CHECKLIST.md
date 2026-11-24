@@ -8,7 +8,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 | --- | --- | --- |
 | Repository link | Published | Public repository under the owner's account. [ADA5-JefeFinal](https://github.com/epinki07/ADA5-JefeFinal) |
 | Credentials absent from Git | Verified | The Android Firebase download and generated local build configuration are ignored and do not appear in the public repository. |
-| Three commits on three distinct days | Pending | The twelve commits preceding this phase are all dated November 18. This November 23 delivery-readiness commit establishes a second day; a third distinct day is still required. Do not alter commit dates to satisfy the rubric. |
+| Three commits on three distinct days | Verified | The public history includes November 18, 23, and 24 in Mérida time. |
 | Registration with institutional address and password rules | Android and live Firebase verified | Captured form validation with the Auth Emulator. Android created a temporary institutional-domain account against the live Firebase project, returned to login, and later authenticated it. |
 | Generic login failure and Rive bear | Android and live Firebase verified | Captured Rive in the local demo. The live Android build showed the generic error for a wrong password, then signed in and displayed the matching Firebase UID. |
 | Password recovery | Android and email delivery verified | The live Android build requested a reset through Firebase and the owner confirmed receipt in their mailbox. |
@@ -20,13 +20,13 @@ Prepared November 23, 2026. This file separates local verification from evidence
 
 | Evidence | Status | Capture or action |
 | --- | --- | --- |
-| Public Supabase `productos` bucket and product images | Pending | Create the bucket, upload images, store public HTTPS URLs, and record bucket plus mobile evidence. |
+| Public Supabase `productos` bucket and product images | Pending | The ADA5 organization exists. Create the Free project and bucket, upload the photos, store their public HTTPS URLs, and record bucket plus mobile evidence. |
 | Image, category, price, stock cards; search/filter | Android and PostgreSQL verified | Ten bundled images loaded through the API. Android displayed the cards, filtered by name and category, and kept the existing image fallback. |
 | Product GET, POST, PUT, DELETE and Retry | Android and PostgreSQL verified | Created, edited, and deleted a temporary product with API readbacks. Airplane mode triggered the friendly error; Retry recovered the catalog after reconnection. |
 | Profile and Google Sign-In | Profile and account chooser verified | Android displayed the live Firebase email and UID through email/password sign-in. The APK opened the Google account chooser on the new Google APIs Android emulator. Selecting an account and returning to the catalog remain to be verified. |
 | Assistant, voice search, extra animation | Local tests only | Demonstrate with a real provider key kept on the server, microphone permission and recognized product name, and visible animation. Claim optional points only after this evidence exists. |
 | Sales and internal receipt | Android and PostgreSQL verified | Recorded `V-00001` for MXN 29.00, confirmed stock deductions, and reopened the receipt from the history. |
-| Four later commits across three later days | Pending | Audit dates after Hito 1. The November 18 baseline contains twelve commits; this November 23 phase starts a second date. |
+| Four later commits across three later days | Pending | Audit distinct qualifying dates after the Hito 1 milestone. |
 | Final video, repository, bucket, Teams, review | Local Android demo recorded | Public source and local Android video are available. Hosted image and Google sign-in evidence, Teams submission, and the in-person review remain pending. |
 
 ## Local verification snapshot
@@ -40,7 +40,7 @@ Prepared November 23, 2026. This file separates local verification from evidence
 - Full `flutter analyze` passed without credentials. The Firebase Android setup script consumed the registered app file and generated ignored compile-time settings. The local version uses Firebase Auth Emulator.
 - Local Android checks use `Flutter_Pixel_API_36`. Real-account verification requires the owner's Firebase project configuration.
 - The owner registered the Android app and enabled Email/Password and Google in Firebase. The locally configured APK authenticated a temporary email/password test user and displayed its matching Firebase UID. The temporary account was removed.
-- The repository is public. The verified history contains two distinct commit days, November 18 and November 23.
+- The repository is public. The verified Hito 1 history contains three distinct commit days, November 18, 23, and 24.
 
 ## Teams message draft — Hito 1
 

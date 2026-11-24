@@ -11,6 +11,7 @@ The [Android demo release](https://github.com/epinki07/ADA5-JefeFinal/releases/t
 - `docs/`: source inventory, [phase plan](docs/PHASE_PLAN.md), phase logs, rubric trace, and decisions.
 - [Delivery checklist](docs/DELIVERY_CHECKLIST.md): evidence, Git dates, external setup, and Teams draft.
 - [Deployment guide](docs/DEPLOYMENT.md) for the protected API, Cloudflare, and iOS builds.
+- [Handoff notes](docs/HANDOFF.md) for the verified demo and remaining iOS and hosting work.
 - `CHANGELOG.md`: English record of each integration change.
 
 ## Current status

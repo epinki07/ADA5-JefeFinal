@@ -12,15 +12,15 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 | Sign-out | Present | Android returned to login and Back did not reopen the catalog after signing out of the local Firebase session. |
 | Previous semester theme and at least 10 products | Partial | PostgreSQL served the owner's selected market catalog with ten products across three categories, and Android displayed the catalog. Previous-theme compliance remains unverified. |
 | Show product category | Present | Android displayed category names returned by Spring Boot and PostgreSQL. |
-| Keep credentials out of GitHub | Present | Both the Firebase Android download and generated local build options are ignored. Public releases use the emulator configuration. |
-| Mobile evidence and three commits on three different days | Partial | The Hito 1 advance includes six Android captures. Git history covers two distinct days. |
+| Keep credentials out of GitHub | Present | The downloaded Android and iOS Firebase files and generated build options are ignored. Public demo releases use the emulator configuration. |
+| Mobile evidence and three commits on three different days | Present | The Hito 1 advance includes six Android captures. Git history covers November 18, 23, and 24 in Mérida time. |
 
 ## Milestone 2 — 30 points, due December 1, 2026
 
 | Requirement | Status | Evidence / next action |
 | --- | --- | --- |
 | `imageUrl` in entity, domain, mapper, database, and Flutter | Present | PostgreSQL provided ten image paths, Spring Boot served the WebP files, and Android rendered photos on the catalog cards. Supabase hosting is tracked separately. |
-| Public Supabase product-image bucket | Missing | Requires project configuration and uploaded images. |
+| Public Supabase product-image bucket | Missing | The ADA5 organization exists. The Free project, bucket, and image upload are pending. |
 | Redesigned catalog with image, category, price, and stock | Present | Android displayed photos, names, categories, prices, and stock from the PostgreSQL catalog. |
 | Search by name and/or category filter | Present | Android verified the Bolillo search and Panaderia selection. Both removed products outside the filter. |
 | Product GET, POST, PUT, DELETE from Flutter | Present | Android created a temporary product, edited stock from 6 to 8, and deleted it. API readbacks checked PostgreSQL state after each mobile action. |
@@ -41,4 +41,4 @@ Statuses: **Present**, **Partial**, **Missing**, **Decision needed**. These desc
 
 Mark a requirement complete only after code review and a successful on-device demonstration. Screenshots, Git history, and Teams submissions are separate delivery artifacts.
 
-Use [the delivery checklist](DELIVERY_CHECKLIST.md) to track evidence and submission links. The public repository has commits on two distinct days, November 18 and November 23.
+Use [the delivery checklist](DELIVERY_CHECKLIST.md) to track evidence and submission links and the [handoff notes](HANDOFF.md) to resume iOS and hosting work.
