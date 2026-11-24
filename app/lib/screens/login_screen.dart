@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _completeLogin() async {
     if (!mounted) return;
     _trigSuccess?.fire();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 400));
     if (!mounted) return;
     Navigator.pushReplacement(
       context,

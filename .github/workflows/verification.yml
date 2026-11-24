@@ -53,10 +53,14 @@ jobs:
         working-directory: app
     steps:
       - uses: actions/checkout@v7
-      - name: Set up Flutter
-        run: |
-          git clone --branch 3.47.9 --depth 1 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
-          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - name: Check out Flutter 3.47.9
+        uses: actions/checkout@v7
+        with:
+          repository: flutter/flutter
+          ref: c197ca5199e9ee5661e865596c9c07294dfab51c
+          path: .flutter-sdk
+          persist-credentials: false
+      - run: echo "$GITHUB_WORKSPACE/.flutter-sdk/bin" >> "$GITHUB_PATH"
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
