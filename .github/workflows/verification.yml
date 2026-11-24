@@ -65,12 +65,7 @@ jobs:
           flutter_sdk="$GITHUB_WORKSPACE/.flutter-sdk"
           test "$(git -C "$flutter_sdk" rev-parse HEAD)" = c197ca5199e9ee5661e865596c9c07294dfab51c
           echo "$flutter_sdk/bin" >> "$GITHUB_PATH"
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
-      - name: Build for the iOS Simulator
-        run: flutter build ios --simulator --debug --target lib/main_demo.dart
-      - name: Install and launch the app
+      - name: Boot an iPhone Simulator
         run: |
           simulator=$(xcrun simctl list devices available -j | python3 -c '
           import json, sys
@@ -79,17 +74,45 @@ jobs:
                      if ".iOS-" in runtime for device in devices if device["name"].startswith("iPhone")))
           ')
           xcrun simctl boot "$simulator"
-          xcrun simctl bootstatus "$simulator" -b
-          xcrun simctl install "$simulator" build/ios/iphonesimulator/Runner.app
-          launched=$(xcrun simctl launch "$simulator" com.epinki07.ada5)
-          echo "$launched"
-          sleep 8
-          kill -0 "${launched##* }"
-          xcrun simctl io "$simulator" screenshot "$RUNNER_TEMP/ada5-ios.png"
-          ditto -c -k --keepParent build/ios/iphonesimulator/Runner.app "$RUNNER_TEMP/ada5-ios-simulator.zip"
+          echo "ADA5_SIMULATOR=$simulator" >> "$GITHUB_ENV"
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - name: Build for the iOS Simulator
+        run: flutter build ios --simulator --debug --target lib/main_demo.dart
+      - name: Package the simulator build
+        run: ditto -c -k --keepParent build/ios/iphonesimulator/Runner.app "$RUNNER_TEMP/ada5-ios-simulator.zip"
       - uses: actions/upload-artifact@v7
         with:
           name: ada5-ios-simulator
-          path: |
-            ${{ runner.temp }}/ada5-ios-simulator.zip
-            ${{ runner.temp }}/ada5-ios.png
+          path: ${{ runner.temp }}/ada5-ios-simulator.zip
+      - name: Install and launch the app
+        timeout-minutes: 5
+        run: |
+          xcrun simctl bootstatus "$ADA5_SIMULATOR" -b
+          xcrun simctl install "$ADA5_SIMULATOR" build/ios/iphonesimulator/Runner.app
+          launched=$(xcrun simctl launch "$ADA5_SIMULATOR" com.epinki07.ada5)
+          echo "$launched"
+          sleep 8
+          kill -0 "${launched##* }"
+          xcrun simctl io "$ADA5_SIMULATOR" screenshot "$RUNNER_TEMP/ada5-ios.png"
+      - name: Capture logs if the simulator launch fails
+        if: failure()
+        timeout-minutes: 2
+        run: |
+          mkdir -p "$RUNNER_TEMP/ios-launch-logs"
+          xcrun simctl spawn "$ADA5_SIMULATOR" log show --last 4m --style compact \
+            --predicate 'process == "Runner" OR eventMessage CONTAINS[c] "com.epinki07.ada5"' \
+            > "$RUNNER_TEMP/ios-launch-logs/simulator.log" || true
+          find "$HOME/Library/Logs/DiagnosticReports" -maxdepth 1 -name 'Runner*' \
+            -exec cp {} "$RUNNER_TEMP/ios-launch-logs/" \; || true
+          tail -100 "$RUNNER_TEMP/ios-launch-logs/simulator.log"
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: ada5-ios-launch-logs
+          path: ${{ runner.temp }}/ios-launch-logs
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ada5-ios-screenshot
+          path: ${{ runner.temp }}/ada5-ios.png
