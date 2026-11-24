@@ -58,6 +58,7 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 
 ## Completed Work
 
+- Added Firebase authentication and operator authorization to the production API, deployment Docker image, Cloudflare configuration, and the iOS bootstrap and signing guide.
 - Created `ADA5/sources/` and cloned four relevant repositories.
 - Copied the Flutter and market backend baselines into a new local Git repository.
 - Wrote English source inventory, rubric trace, decisions, README, and change log.
@@ -70,6 +71,8 @@ Build the ADA5 Flutter mobile project with Firebase, Spring Boot, PostgreSQL, Su
 
 ## Validation Log
 
+- The production smoke test verified live Firebase tokens and PostgreSQL with isolated test data. A catalog reader was denied write and sales access. An operator recorded, replayed, and retrieved a sale while stock changed once. Both temporary identities and the database were removed after testing.
+- GitHub Actions built and verified the Java container with PostgreSQL. Local Flutter passed analysis and 13 tests. The backend passed 19 tests.
 - `flutter test` passed (2 tests).
 - `backend/./gradlew test` passed.
 - `flutter analyze` reported two issues at `app/lib/main.dart` because `lib/firebase_options.dart` is intentionally untracked and is not yet configured locally.

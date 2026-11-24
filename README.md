@@ -10,6 +10,7 @@ The [Android demo release](https://github.com/epinki07/ADA5-JefeFinal/releases/t
 - `backend/`: Spring Boot catalog, purchase, and sales endpoints.
 - `docs/`: source inventory, [phase plan](docs/PHASE_PLAN.md), phase logs, rubric trace, and decisions.
 - [Delivery checklist](docs/DELIVERY_CHECKLIST.md): evidence, Git dates, external setup, and Teams draft.
+- [Deployment guide](docs/DEPLOYMENT.md) for the protected API, Cloudflare, and iOS builds.
 - `CHANGELOG.md`: English record of each integration change.
 
 ## Current status
@@ -36,9 +37,9 @@ For PostgreSQL, create a database and provide `DB_URL`, `DB_USER`, and `DB_PASSW
 
 Apply `backend/sql/catalog-images-postgres.sql` after the seed to display the included product images. It fills missing image URLs without overwriting URLs already assigned by the owner. To use a public Supabase bucket instead, follow the [product image setup](docs/PRODUCT_IMAGES.md).
 
-The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it; optionally override `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`). The key never belongs in Flutter or Git. Without it, `POST /assistant` returns 503 and the product catalog remains available. The assistant currently reads up to 100 active products from the backend. This local integration should not be published with a provider key until Firebase authorization protects the assistant and product-write endpoints.
+The optional shopping assistant uses Google's Gemini Interactions API. Set `GEMINI_API_KEY` in the backend process environment to enable it and optionally override `GEMINI_MODEL` (default `gemini-3.5-flash-lite`). Without the key, `POST /assistant` returns 503 and the product catalog remains available. The assistant reads up to 100 active products. The production profile restricts this endpoint to authorized Firebase operators.
 
-The PostgreSQL path has been verified against a local test database. The public Android demo uses Firebase Auth Emulator. A separate local build verified registration, email/password sign-in, and delivery of the recovery email against the owner's live Firebase project. Google sign-in, the previous-semester theme, and externally hosted images still require verification. Keep the backend on a private development interface for the demonstration.
+The PostgreSQL path has been verified against a local test database. The public Android demo uses Firebase Auth Emulator. A separate local build verified registration, email/password sign-in, and delivery of the recovery email against the owner's live Firebase project. Google sign-in, the previous-semester theme, and externally hosted images still require verification. For public hosting, follow the production configuration in the deployment guide.
 
 ## Ownership
 

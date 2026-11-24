@@ -7,7 +7,7 @@ This app provides Firebase email/password registration, login, recovery, Google 
 1. In Firebase Project Settings, register the Android application ID `com.example.login_rive_animation`. From `android/`, run `./gradlew signingReport` and add the debug SHA-1 and SHA-256 fingerprints in Firebase. Use the signing fingerprints for the build that will run on the test device.
 2. Enable the Email/Password and Google providers in Firebase Authentication. Download the updated Android `google-services.json` after enabling Google.
 3. From this directory, run `python3 tool/configure_firebase_android.py /path/to/google-services.json`. The script writes the ignored `firebase.android.local.json` and reads the web OAuth client ID used by Android Google Sign-In.
-4. Start Spring Boot and PostgreSQL with the root README instructions. Run `flutter pub get` and `flutter run --dart-define-from-file=firebase.android.local.json` on an Android device with Google Play services. The Android emulator uses `http://10.0.2.2:8090`. For a physical phone on the same network, pass `--dart-define=API_BASE_URL=http://HOST_IP:8090`.
+4. Start Spring Boot and PostgreSQL with the root README instructions. Run `flutter pub get` and `flutter run --dart-define-from-file=firebase.android.local.json` on an Android device with Google Play services. The Android emulator uses `http://10.0.2.2:8090`. For a USB-connected phone, run `adb reverse tcp:8090 tcp:8090` and pass `--dart-define=API_BASE_URL=http://127.0.0.1:8090` for a debug build.
 
 Verify registration with an institutional test mailbox, request a reset and check the inbox, then sign in with Google and open the profile. Keep downloaded and generated Firebase configuration files local.
 
@@ -31,6 +31,10 @@ flutter run --target lib/main_demo.dart
 The demo uses Firebase Authentication's local emulator on port 9099. Register a fictitious account with the institutional domain and enter the same credentials at login. The emulator prints recovery links in its local console. Use the standard `lib/main.dart` entry point and a configured Firebase project to verify delivery to a real inbox and Google sign-in.
 
 From the product list, tap **Ventas**, then **Nueva venta**. Choose quantities and a payment method. Register the sale to see its receipt, then return to the history and reopen it. The catalog refreshes stock when you return to it.
+
+## iOS
+
+The local demo also runs with `flutter run --target lib/main_demo.dart` on an iOS simulator with Xcode. Use the same PostgreSQL, API, and Firebase Auth Emulator processes on the Mac. The simulator connects to the Mac on `127.0.0.1:8090` for the API and `localhost:9099` for authentication. See the [deployment guide](../docs/DEPLOYMENT.md#android-and-ios-builds) for production Firebase, signing, and TestFlight.
 
 ## Checks
 

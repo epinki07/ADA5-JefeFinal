@@ -1,5 +1,13 @@
 # Change log
 
+## 2026-11-23 — Protected mobile API and iOS build
+
+- Added Firebase token validation and explicit operator permissions for inventory changes, sales, and the shopping assistant.
+- Added the PostgreSQL health endpoint, Docker build, and Cloudflare deployment configuration. GitHub Actions verified the deployment image with PostgreSQL.
+- Reused HTTP connections, adjusted catalog image decoding to the display size, loaded product categories in the same query, and reduced the sign-in transition by 1.6 seconds.
+- Verified the protected API with live Firebase test accounts and temporary PostgreSQL data. A reader could load the catalog, while an operator could save and retrieve a sale, retry it, and verify that stock was deducted once.
+- Added iOS build automation, local Firebase configuration generation, and TestFlight setup documentation.
+
 ## 2026-11-23 — Catalog photos and Firebase Android setup
 
 - Added ten product photographs, local serving through Spring Boot, and a repeatable PostgreSQL image assignment script.
