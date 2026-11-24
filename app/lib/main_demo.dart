@@ -1,15 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final appType = kIsWeb
+      ? 'web'
+      : defaultTargetPlatform == TargetPlatform.iOS
+      ? 'ios'
+      : 'android';
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
+    options: FirebaseOptions(
       apiKey: 'local-auth-emulator',
-      appId: '1:1:android:1',
+      appId: '1:1:$appType:1',
       messagingSenderId: '1',
       projectId: 'demo-ada5',
     ),

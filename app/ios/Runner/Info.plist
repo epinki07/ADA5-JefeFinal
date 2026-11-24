@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Login Rive Animation</string>
+	<string>ADA5</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,12 +24,30 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(ADA5_GOOGLE_URL_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>ADA5 se conecta a la API del negocio en la red local.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Use speech recognition to search the product catalog by voice.</string>
+	<string>ADA5 usa el reconocimiento de voz para buscar en el catálogo.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Use the microphone to search products by voice.</string>
+	<string>ADA5 usa el micrófono para buscar productos por voz.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

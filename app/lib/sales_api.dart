@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'api_client.dart';
+
 enum SalePayment {
   cash('CASH', 'Efectivo'),
   card('CARD', 'Tarjeta'),
@@ -52,15 +54,14 @@ class SaleReceipt {
 }
 
 class SalesApi {
-  SalesApi(this.baseUrl);
+  SalesApi(this.baseUrl, {ApiClient? client})
+    : _client = client ?? ApiClient.shared;
 
   final String baseUrl;
-  static const _timeout = Duration(seconds: 15);
+  final ApiClient _client;
 
   Future<({List<SaleSummary> sales, bool hasNext})> getHistory(int page) async {
-    final response = await http
-        .get(Uri.parse('$baseUrl/sales?page=$page'))
-        .timeout(_timeout);
+    final response = await _client.request(baseUrl, '/sales?page=$page');
     final data = _data(response, 200);
     return (
       sales: (data['sales'] as List)
@@ -72,20 +73,17 @@ class SalesApi {
   }
 
   Future<SaleReceipt> getReceipt(int id) async {
-    final response = await http
-        .get(Uri.parse('$baseUrl/sales/$id'))
-        .timeout(_timeout);
+    final response = await _client.request(baseUrl, '/sales/$id');
     return SaleReceipt.fromJson(_data(response, 200));
   }
 
   Future<SaleReceipt> record(Map<String, Object> order) async {
-    final response = await http
-        .post(
-          Uri.parse('$baseUrl/sales'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(order),
-        )
-        .timeout(_timeout);
+    final response = await _client.request(
+      baseUrl,
+      '/sales',
+      method: 'POST',
+      body: order,
+    );
     return SaleReceipt.fromJson(_data(response, 201));
   }
 

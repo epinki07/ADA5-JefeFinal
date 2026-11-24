@@ -1,0 +1,3 @@
+ADA5_BUNDLE_ID = com.epinki07.ada5
+ADA5_GOOGLE_URL_SCHEME = com.epinki07.ada5.google-unconfigured
+#include? "FirebaseLocal.xcconfig"

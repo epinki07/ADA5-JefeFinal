@@ -1,0 +1,31 @@
+server:
+  address: 0.0.0.0
+  compression:
+    enabled: true
+    mime-types: application/json
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX_SIZE:5}
+      minimum-idle: 1
+      connection-timeout: 5000
+  jpa:
+    show-sql: false
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 7d
+          cache-public: true
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+ada5:
+  firebase:
+    project-id: ${ADA5_FIREBASE_PROJECT_ID}
+    operator-uids: ${ADA5_OPERATOR_UIDS:}

@@ -1,0 +1,87 @@
+name: Verify ADA5
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run API tests
+        working-directory: backend
+        run: ./gradlew test
+      - name: Build the deployment image
+        run: docker build -t ada5-api backend
+      - name: Check the deployment image with PostgreSQL
+        run: |
+          docker network create ada5
+          docker run -d --network ada5 --name postgres -e POSTGRES_PASSWORD=ci-database postgres:17
+          for attempt in {1..30}; do
+            if docker exec postgres pg_isready -U postgres; then break; fi
+            sleep 1
+          done
+          docker run -d --network ada5 --name ada5 -p 127.0.0.1:8090:8090 \
+            -e DB_URL=jdbc:postgresql://postgres:5432/postgres \
+            -e DB_USER=postgres -e DB_PASSWORD=ci-database \
+            -e ADA5_FIREBASE_PROJECT_ID=ci-ada5 ada5-api
+          curl --fail --silent --show-error --retry-all-errors --retry 40 --retry-delay 2 http://127.0.0.1:8090/healthz
+          status=$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8090/products)
+          test "$status" = 401
+      - name: Report container logs on failure
+        if: failure()
+        run: |
+          docker logs postgres || true
+          docker logs ada5 || true
+
+  ios:
+    runs-on: macos-26
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Flutter
+        run: |
+          git clone --branch 3.47.9 --depth 1 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - name: Build for the iOS Simulator
+        run: flutter build ios --simulator --debug --target lib/main_demo.dart
+      - name: Install and launch the app
+        run: |
+          simulator=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          runtimes = json.load(sys.stdin)["devices"]
+          print(next(device["udid"] for runtime, devices in reversed(list(runtimes.items()))
+                     if ".iOS-" in runtime for device in devices if device["name"].startswith("iPhone")))
+          ')
+          xcrun simctl boot "$simulator"
+          xcrun simctl bootstatus "$simulator" -b
+          xcrun simctl install "$simulator" build/ios/iphonesimulator/Runner.app
+          launched=$(xcrun simctl launch "$simulator" com.epinki07.ada5)
+          echo "$launched"
+          sleep 8
+          kill -0 "${launched##* }"
+          xcrun simctl io "$simulator" screenshot "$RUNNER_TEMP/ada5-ios.png"
+          ditto -c -k --keepParent build/ios/iphonesimulator/Runner.app "$RUNNER_TEMP/ada5-ios-simulator.zip"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ada5-ios-simulator
+          path: |
+            ${{ runner.temp }}/ada5-ios-simulator.zip
+            ${{ runner.temp }}/ada5-ios.png

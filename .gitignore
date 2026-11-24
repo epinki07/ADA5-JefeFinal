@@ -5,6 +5,8 @@
 **/application-local.properties
 **/firebase_options.dart
 **/firebase.android.local.json
+**/firebase.ios.local.json
+**/FirebaseLocal.xcconfig
 firebase-debug.log*
 **/google-services.json
 **/GoogleService-Info.plist

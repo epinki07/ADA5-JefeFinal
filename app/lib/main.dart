@@ -8,6 +8,8 @@ const _appId = String.fromEnvironment('FIREBASE_APP_ID');
 const _senderId = String.fromEnvironment('FIREBASE_SENDER_ID');
 const _projectId = String.fromEnvironment('FIREBASE_PROJECT_ID');
 const _authDomain = String.fromEnvironment('FIREBASE_AUTH_DOMAIN');
+const _iosBundleId = String.fromEnvironment('FIREBASE_IOS_BUNDLE_ID');
+const _googleIosClient = String.fromEnvironment('GOOGLE_IOS_CLIENT_ID');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,8 @@ Future<void> main() async {
       messagingSenderId: _senderId,
       projectId: _projectId,
       authDomain: _authDomain == '' ? null : _authDomain,
+      iosBundleId: _iosBundleId == '' ? null : _iosBundleId,
+      iosClientId: _googleIosClient == '' ? null : _googleIosClient,
     ),
   );
   runApp(const MainApp());

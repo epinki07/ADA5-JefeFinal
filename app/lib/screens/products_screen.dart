@@ -332,6 +332,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   : constraints.maxWidth >= 420
                                   ? 2
                                   : 1;
+                              final thumbnailHeight =
+                                  (120 * MediaQuery.devicePixelRatioOf(context))
+                                      .ceil();
                               return GridView.builder(
                                 padding: const EdgeInsets.fromLTRB(
                                   12,
@@ -382,6 +385,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                   ),
                                                   child: Image.network(
                                                     imageUrl,
+                                                    cacheHeight: thumbnailHeight,
                                                     fit: BoxFit.contain,
                                                     excludeFromSemantics: true,
                                                     errorBuilder: (_, _, _) =>

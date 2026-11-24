@@ -1,6 +1,7 @@
 package mx.edu.tecdesoftware.market_backend.persistence.crud;
 
 import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,8 +23,14 @@ public interface ProductoCrudRepository extends CrudRepository<Producto, Integer
     // y ordenarlos ascendentemente por nombre
 
     List<Producto> findByIdCategoriaOrderByNombreAsc(int idCategoria);
+
+    @EntityGraph(attributePaths = "categoria")
     List<Producto> findByEstadoTrue();
+
+    @EntityGraph(attributePaths = "categoria")
     List<Producto> findByIdCategoriaAndEstadoTrueOrderByNombreAsc(int idCategoria);
+
+    @EntityGraph(attributePaths = "categoria")
     Optional<Producto> findByIdProductoAndEstadoTrue(int idProducto);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

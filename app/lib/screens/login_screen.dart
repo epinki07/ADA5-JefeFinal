@@ -11,7 +11,16 @@ import 'password_reset_screen.dart';
 import 'signup_screen.dart';
 
 const _googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+const _googleIosClientId = String.fromEnvironment('GOOGLE_IOS_CLIENT_ID');
 Future<void>? _googleInitialization;
+
+bool get _canStartGoogleSignIn =>
+    kIsWeb ||
+    switch (defaultTargetPlatform) {
+      TargetPlatform.android => _googleServerClientId.isNotEmpty,
+      TargetPlatform.iOS => _googleIosClientId.isNotEmpty,
+      _ => true,
+    };
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -68,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await FirebaseAuth.instance.signInWithPopup(GoogleAuthProvider());
       } else {
         await (_googleInitialization ??= GoogleSignIn.instance.initialize(
+          clientId: _googleIosClientId.isEmpty ? null : _googleIosClientId,
           serverClientId: _googleServerClientId.isEmpty
               ? null
               : _googleServerClientId,
@@ -292,9 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                 ),
                 const SizedBox(height: 10),
-                if (defaultTargetPlatform != TargetPlatform.android ||
-                    _googleServerClientId.isNotEmpty ||
-                    kIsWeb)
+                if (_canStartGoogleSignIn)
                   OutlinedButton.icon(
                     onPressed: _isLoading ? null : _onGoogleLogin,
                     icon: const Icon(Icons.account_circle),
